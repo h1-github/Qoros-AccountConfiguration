@@ -7,7 +7,6 @@ import android.graphics.Paint;
 import android.graphics.PointF;
 import android.view.View;
 
-import com.wanghuan.accountconfiguration.util.L;
 import com.wanghuan.accountconfiguration.view.ACStatus;
 
 /**
@@ -71,7 +70,6 @@ public class WelcomeDotObject extends ObjectPointBase {
     @Override
     public void drawMove(final View view) {
         super.drawMove(view);
-        L.d("drawMove");
         ValueAnimator valueAnimator = ValueAnimator.ofFloat(0,1);
         valueAnimator.setDuration(1000);
         valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -81,7 +79,6 @@ public class WelcomeDotObject extends ObjectPointBase {
                 center = calculate(welcome_dot_point2, welcome_dot_point3, value);
                 view.postInvalidate();
                 ACStatus.animating = value != 1;
-                L.d("addUpdateListener");
             }
         });
         valueAnimator.start();

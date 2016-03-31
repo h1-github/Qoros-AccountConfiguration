@@ -2,7 +2,9 @@ package com.wanghuan.accountconfiguration.view.objectviews;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.DashPathEffect;
 import android.graphics.Paint;
+import android.graphics.PathEffect;
 import android.graphics.PointF;
 import android.view.View;
 
@@ -148,6 +150,9 @@ public abstract class ObjectBase implements ObjectInterface{
 
     public Paint getGreyLinePaint(){
         Paint paint = new Paint();
+        paint.setStyle(Paint.Style.STROKE);
+        PathEffect effects = new DashPathEffect(new float[]{10,10,10,10},10);
+        paint.setPathEffect(effects);
         paint.setAntiAlias(true);
         paint.setColor(colorGrey);
         paint.setStrokeWidth(10);
@@ -156,6 +161,7 @@ public abstract class ObjectBase implements ObjectInterface{
 
     public Paint getBlueLinePaint(){
         Paint paint = new Paint();
+        paint.setStyle(Paint.Style.STROKE);
         paint.setAntiAlias(true);
         paint.setColor(colorBlue);
         paint.setStrokeWidth(10);

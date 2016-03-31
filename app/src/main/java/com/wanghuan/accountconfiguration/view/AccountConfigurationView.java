@@ -139,12 +139,16 @@ public class AccountConfigurationView extends View{
          */
 
         if(welcomeDotObject.isDraw()){
-            canvas.drawLine(enterNumber.getCenter().x, enterNumber.getCenter().y,
-                    welcomeDotObject.getCenter().x, welcomeDotObject.getCenter().y ,
+            Path path = new Path();
+            path.moveTo(enterNumber.getCenter().x , enterNumber.getCenter().y);
+            path.lineTo(welcomeDotObject.getCenter().x, welcomeDotObject.getCenter().y);
+            canvas.drawPath(path ,
                     ACStatus.welcome_dash_dot || ACStatus.welcome_dash_always
-                            ? welcomeDotObject.getBlueLinePaint() : welcomeDotObject.getGreyLinePaint());
-            canvas.drawLine(welcomeDotObject.getCenter().x, welcomeDotObject.getCenter().y ,
-                    sexObject.getCenter().x , sexObject.getCenter().y ,
+                    ? welcomeDotObject.getBlueLinePaint() : welcomeDotObject.getGreyLinePaint());
+            Path path2 = new Path();
+            path2.moveTo(welcomeDotObject.getCenter().x , welcomeDotObject.getCenter().y);
+            path2.lineTo(sexObject.getCenter().x, sexObject.getCenter().y);
+            canvas.drawPath(path2 ,
                     ACStatus.welcome_dash_start || ACStatus.welcome_dash_always
                             ? welcomeDotObject.getBlueLinePaint() : welcomeDotObject.getGreyLinePaint());
             canvas.drawCircle(welcomeDotObject.getCenter().x, welcomeDotObject.getCenter().y,
@@ -157,22 +161,34 @@ public class AccountConfigurationView extends View{
         }
 
         if(sexBoyObject.isDraw()){
-            canvas.drawLine(sexObject.getCenter().x, sexObject.getCenter().y,
-                    sexBoyObject.getCenter().x, sexBoyObject.getCenter().y,
+//            canvas.drawLine(sexObject.getCenter().x, sexObject.getCenter().y,
+//                    sexBoyObject.getCenter().x, sexBoyObject.getCenter().y,
+//                    ACStatus.sex_dash_boy || ACStatus.sex_dash_always
+//                            ? sexBoyObject.getBlueLinePaint() : sexBoyObject.getGreyLinePaint());
+            Path path = new Path();
+            path.moveTo(sexObject.getCenter().x , sexObject.getCenter().y);
+            path.lineTo(sexBoyObject.getCenter().x, sexBoyObject.getCenter().y);
+            canvas.drawPath(path,
                     ACStatus.sex_dash_boy || ACStatus.sex_dash_always
                             ? sexBoyObject.getBlueLinePaint() : sexBoyObject.getGreyLinePaint());
-            canvas.drawLine(sexBoyObject.getCenter().x, sexBoyObject.getCenter().y,
-                    headIconObject.getCenter().x, headIconObject.getCenter().y,
+            Path path2 = new Path();
+            path2.moveTo(sexBoyObject.getCenter().x , sexBoyObject.getCenter().y);
+            path2.lineTo(headIconObject.getCenter().x, headIconObject.getCenter().y);
+            canvas.drawPath(path2,
                     ACStatus.sex_dash_next || ACStatus.sex_dash_always
                             ? sexBoyObject.getBlueLinePaint() : sexBoyObject.getGreyLinePaint());
         }
         if(sexGirlObject.isDraw()){
-            canvas.drawLine(sexObject.getCenter().x, sexObject.getCenter().y,
-                    sexGirlObject.getCenter().x, sexGirlObject.getCenter().y,
+            Path path = new Path();
+            path.moveTo(sexObject.getCenter().x , sexObject.getCenter().y);
+            path.lineTo(sexGirlObject.getCenter().x, sexGirlObject.getCenter().y);
+            canvas.drawPath(path,
                     ACStatus.sex_dash_girl || ACStatus.sex_dash_always
-                            ? sexBoyObject.getBlueLinePaint() : sexBoyObject.getGreyLinePaint());
-            canvas.drawLine(sexGirlObject.getCenter().x, sexGirlObject.getCenter().y,
-                    headIconObject.getCenter().x, headIconObject.getCenter().y,
+                            ? sexGirlObject.getBlueLinePaint() : sexGirlObject.getGreyLinePaint());
+            Path path2 = new Path();
+            path2.moveTo(sexGirlObject.getCenter().x , sexGirlObject.getCenter().y);
+            path2.lineTo(headIconObject.getCenter().x, headIconObject.getCenter().y);
+            canvas.drawPath(path2,
                     ACStatus.sex_dash_next || ACStatus.sex_dash_always
                             ? sexGirlObject.getBlueLinePaint() : sexGirlObject.getGreyLinePaint());
         }
@@ -215,9 +231,6 @@ public class AccountConfigurationView extends View{
                     headIconObject.getCenter().y, headIconObject.getRadius(), headIconObject.getPaint());
             canvas.drawText(headIconObject.getText(), headIconObject.getCenter().x, headIconObject.getCenter().y, headIconObject.getTextPaint());
         }
-
-        //sex
-
 
         if(sexBoyObject.isDraw()){
             canvas.drawCircle(sexBoyObject.getCenter().x,

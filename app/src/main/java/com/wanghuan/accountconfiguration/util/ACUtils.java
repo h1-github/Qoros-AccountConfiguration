@@ -27,4 +27,36 @@ public class ACUtils {
         return false;
     }
 
+    public static final int QUAD_TYPE_LEFT_TOP = 1;
+    public static final int QUAD_TYPE_LEFT_BOTTOM = 2;
+    public static final int QUAD_TYPE_RIGHT_TOP = 3;
+    public static final int QUAD_TYPE_RIGHT_BOTTOM = 4;
+
+    public static final int QUAD_OFFSET = 50;
+
+    public static PointF calculateQuadPoint(PointF start , PointF end , int quadType){
+        PointF quadPoint = new PointF();
+        switch (quadType){
+            case QUAD_TYPE_LEFT_TOP:
+                quadPoint.set((start.x + end.x)/2 - QUAD_OFFSET, (start.y + end.y)/2 - QUAD_OFFSET);
+                break;
+            case QUAD_TYPE_LEFT_BOTTOM:
+                quadPoint.set((start.x + end.x)/2 , (start.y + end.y)/2);
+                break;
+            case QUAD_TYPE_RIGHT_TOP:
+                quadPoint.set((start.x + end.x)/2 , (start.y + end.y)/2);
+                break;
+            case QUAD_TYPE_RIGHT_BOTTOM:
+                quadPoint.set((start.x + end.x)/2 , (start.y + end.y)/2);
+                break;
+        }
+        return quadPoint;
+    }
+
+    public static PointF calculateMidPoint(PointF start , PointF end){
+        PointF middle = new PointF();
+        middle.set((start.x + end.x)/2 , (start.y + end.y)/2);
+        return middle;
+    }
+
 }

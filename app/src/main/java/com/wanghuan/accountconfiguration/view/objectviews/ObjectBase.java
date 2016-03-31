@@ -20,8 +20,63 @@ public abstract class ObjectBase implements ObjectInterface{
 
     boolean isDraw = false;
 
+    PointF center = new PointF();
+
+    public PointF getCenter() {
+        return center;
+    }
+
+    public void setCenter(PointF center) {
+        this.center = center;
+    }
+
+    int colorWhite;
     int colorBlue;
     int colorGrey;
+
+    private String text;
+    private int bgColor = colorGrey;
+    private int textColor = colorWhite;
+
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public int getTextColor() {
+        return textColor;
+    }
+
+    public int getBgColor() {
+        return bgColor;
+    }
+
+    public void setBgColor(int bgColor) {
+        this.bgColor = bgColor;
+    }
+
+    public void setBgBlueColor() {
+        setBgColor(colorBlue);
+    }
+
+    public void setBgGreyColor() {
+        setBgColor(colorGrey);
+    }
+
+    public void setTextColor(int textColor) {
+        this.textColor = textColor;
+    }
+
+    public void setTextColorBlue() {
+        setTextColor(colorBlue);
+    }
+
+    public void setTextColorGrey(){
+        setTextColor(colorGrey);
+    }
 
     public boolean isDraw() {
         return isDraw;
@@ -37,6 +92,7 @@ public abstract class ObjectBase implements ObjectInterface{
         this.measureHeight = ViewUtils.getScreenHeightThoughContext(context);
         paint.setAntiAlias(true);
 
+        colorWhite = Color.WHITE;
         colorBlue = Color.parseColor("#6699FF");
         colorGrey = Color.parseColor("#DDDDDD");
     }
@@ -44,6 +100,7 @@ public abstract class ObjectBase implements ObjectInterface{
     Paint paint = new Paint();
 
     public Paint getPaint() {
+        paint.setColor(bgColor);
         return paint;
     }
 
@@ -64,6 +121,54 @@ public abstract class ObjectBase implements ObjectInterface{
             pointF.y = from.y - Math.abs(from.y - to.y) * animatedValue;
         }
         return pointF;
+    }
+
+    public Paint getGreyDotPaint(){
+        Paint paint = new Paint();
+        paint.setAntiAlias(true);
+        paint.setColor(colorGrey);
+        paint.setStrokeWidth(10);
+        return paint;
+    }
+
+    public Paint getBlueDotPaint(){
+        Paint paint = new Paint();
+        paint.setAntiAlias(true);
+        paint.setColor(colorBlue);
+        paint.setStrokeWidth(10);
+        return paint;
+    }
+
+    public Paint getWhiteDotPaint(){
+        Paint paint = new Paint();
+        paint.setAntiAlias(true);
+        paint.setColor(Color.WHITE);
+        return paint;
+    }
+
+    public Paint getGreyLinePaint(){
+        Paint paint = new Paint();
+        paint.setAntiAlias(true);
+        paint.setColor(colorGrey);
+        paint.setStrokeWidth(10);
+        return paint;
+    }
+
+    public Paint getBlueLinePaint(){
+        Paint paint = new Paint();
+        paint.setAntiAlias(true);
+        paint.setColor(colorBlue);
+        paint.setStrokeWidth(10);
+        return paint;
+    }
+
+    public Paint getTextPaint(){
+        Paint paint = new Paint();
+        paint.setColor(colorWhite);
+        paint.setTextAlign(Paint.Align.CENTER);
+        paint.setTextSize(50);
+        paint.setStrokeWidth(15);
+        return paint;
     }
 
     @Override

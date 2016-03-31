@@ -7,44 +7,21 @@ import android.graphics.Paint;
 import android.graphics.PointF;
 import android.view.View;
 
+import com.wanghuan.accountconfiguration.util.L;
 import com.wanghuan.accountconfiguration.view.ACStatus;
 
 /**
  * Created by h1 on 16/3/29 15:34.
  * email: h18501667737@gmail.com
  */
-public class WelcomeDotObject extends ObjectBase {
+public class WelcomeDotObject extends ObjectPointBase {
 
-    private final static int DEFAULT_RADIUS = 20;
-    private final static int DEFAULT_RADIUS_CORE = 10;
-    private final static int DEFAULT_RADIUS_ACTION = 50;
-
-    private PointF point1 = new PointF(measureWidth + DEFAULT_RADIUS , measureHeight/2);
-    private PointF point2 = new PointF(measureWidth * 0.55f, measureHeight * 0.55f);
-    private PointF point3 = new PointF(measureWidth * 0.35f , point2.y);
-    private PointF point4 = new PointF(-measureWidth , measureHeight);
-
-    private float radius = DEFAULT_RADIUS;
-    private float radiusCore = DEFAULT_RADIUS_CORE;
-    private float radiusAction = DEFAULT_RADIUS_ACTION;
+    private float radius = DOT_DEFAULT_RADIUS;
+    private float radiusCore = DOT_DEFAULT_RADIUS_CORE;
+    private float radiusAction = DOT_DEFAULT_RADIUS_ACTION;
 
     private PointF center = new PointF();
 
-    public PointF getPoint1() {
-        return point1;
-    }
-
-    public PointF getPoint2() {
-        return point2;
-    }
-
-    public PointF getPoint3() {
-        return point3;
-    }
-
-    public PointF getPoint4() {
-        return point4;
-    }
 
     public PointF getCenter() {
         return center;
@@ -62,20 +39,8 @@ public class WelcomeDotObject extends ObjectBase {
         return radiusAction;
     }
 
-    public void setRadius(float radius) {
-        this.radius = radius;
-    }
-
     public WelcomeDotObject(Context context) {
         super(context);
-    }
-
-    public Paint getDotPaint(){
-        Paint paint = new Paint();
-        paint.setAntiAlias(true);
-        paint.setColor(colorGrey);
-        paint.setStrokeWidth(10);
-        return paint;
     }
 
     public Paint getDotWhitePaint(){
@@ -85,25 +50,16 @@ public class WelcomeDotObject extends ObjectBase {
         return paint;
     }
 
-    public Paint getLinePaint(){
-        Paint paint = new Paint();
-        paint.setAntiAlias(true);
-        paint.setColor(colorGrey);
-        paint.setStrokeWidth(10);
-        return paint;
-    }
-
     @Override
     public void drawEnter(final View view) {
         super.drawMove(view);
-        paint.setColor(colorGrey);
         ValueAnimator valueAnimator = ValueAnimator.ofFloat(0,1);
         valueAnimator.setDuration(1000);
         valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 float value = (float) animation.getAnimatedValue();
-                center = calculate(point1, point2, value);
+                center = calculate(welcome_dot_point1, welcome_dot_point2, value);
                 view.postInvalidate();
                 ACStatus.animating = value != 1;
                 ACStatus.sex1 = value == 1;
@@ -115,16 +71,17 @@ public class WelcomeDotObject extends ObjectBase {
     @Override
     public void drawMove(final View view) {
         super.drawMove(view);
-        paint.setColor(colorBlue);
+        L.d("drawMove");
         ValueAnimator valueAnimator = ValueAnimator.ofFloat(0,1);
         valueAnimator.setDuration(1000);
         valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 float value = (float) animation.getAnimatedValue();
-                center = calculate(point2, point3, value);
+                center = calculate(welcome_dot_point2, welcome_dot_point3, value);
                 view.postInvalidate();
                 ACStatus.animating = value != 1;
+                L.d("addUpdateListener");
             }
         });
         valueAnimator.start();

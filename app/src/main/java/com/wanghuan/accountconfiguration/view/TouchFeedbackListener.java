@@ -9,6 +9,11 @@ public abstract class TouchFeedbackListener implements TouchFeedback{
     @Override
     public void onClickWelcome1() {
         ACStatus.welcome1 = false;
-        ACStatus.welcome_active = true;
+        ACStatus.welcome_showing = true;
+    }
+
+    @Override
+    public void onClickWelcomeStart() {
+
     }
 }

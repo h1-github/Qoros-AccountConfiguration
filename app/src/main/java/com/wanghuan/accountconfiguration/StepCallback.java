@@ -13,7 +13,7 @@ public interface StepCallback {
     void welcomeMove();
     void welcomeExit();
 
-    void sex();
+    void welcomeExitSexEnter();
     void headIcon();
 
     void startTitleAnimation();

@@ -9,13 +9,21 @@ public class ACStatus {
     public static boolean animating;
 
     public static boolean welcome1;
-    public static boolean welcome_active;
+    public static boolean welcome_showing;
 
     public static boolean welcome_dash_number;
     public static boolean welcome_dash_dot;
     public static boolean welcome_dash_start;
+    public static boolean welcome_dash_always;
+    public static boolean draw_welcome_quad_sex;
 
     public static boolean sex1;
     public static boolean sex2;
+
+    public static boolean sex_dash_boy;
+    public static boolean sex_dash_girl;
+    public static boolean sex_dash_next;
+    public static boolean sex_dash_always;
+    public static boolean draw_sex_quad_head_icon;
 
 }

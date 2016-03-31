@@ -32,7 +32,7 @@ public abstract class AbstractStepCallback implements StepCallback{
     }
 
     @Override
-    public void sex() {
+    public void welcomeExitSexEnter() {
 
     }
 

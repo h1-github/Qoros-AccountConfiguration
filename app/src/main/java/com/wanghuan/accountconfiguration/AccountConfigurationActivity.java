@@ -25,8 +25,9 @@ import butterknife.ButterKnife;
 public class AccountConfigurationActivity extends Activity implements StepCallback{
 
     private final static int ENTER_ICON_ANIMATION = 1001;
-
     private final static int WELCOME_ENTER_ANIMATION = 1002;
+    private final static int DRAW_WELCOME_QUAD_SEX = 1003;
+    private final static int WELCOME_TO_SEX = 1004;
 
     @Bind(R.id.title)
     TextView title;
@@ -57,6 +58,12 @@ public class AccountConfigurationActivity extends Activity implements StepCallba
                     break;
                 case WELCOME_ENTER_ANIMATION:
                     welcomeEnter();
+                    break;
+                case DRAW_WELCOME_QUAD_SEX:
+                    drawQuadLine(DRAW_WELCOME_QUAD_SEX);
+                    break;
+                case WELCOME_TO_SEX:
+                    welcomeExitSexEnter();
                     break;
             }
         }
@@ -115,12 +122,22 @@ public class AccountConfigurationActivity extends Activity implements StepCallba
 
     @Override
     public void welcomeExit() {
-
+        acView.welcomeDotMove();
+        Message message = new Message();
+        message.what = DRAW_WELCOME_QUAD_SEX;
+        handler.sendMessageDelayed(message, 900);
+        Message message2 = new Message();
+        message2.what = WELCOME_TO_SEX;
+        handler.sendMessageDelayed(message2, 1800);
     }
 
     @Override
-    public void sex() {
-
+    public void welcomeExitSexEnter() {
+        title.setText("性别");
+        subTitle.setText("请选择你的性别");
+        startTitleAnimation();
+        startSubTitleAnimation();
+        acView.welcomeExitSexEnter();
     }
 
     @Override
@@ -154,5 +171,19 @@ public class AccountConfigurationActivity extends Activity implements StepCallba
             super.onClickWelcome1();
             welcomeMove();
         }
+
+        @Override
+        public void onClickWelcomeStart() {
+            super.onClickWelcomeStart();
+            welcomeExit();
+        }
     };
+
+    private void drawQuadLine(int lineType){
+        switch (lineType){
+            case DRAW_WELCOME_QUAD_SEX:
+                acView.drawWelcomeQuadToSex();
+                break;
+        }
+    }
 }

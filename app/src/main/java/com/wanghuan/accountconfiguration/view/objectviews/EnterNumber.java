@@ -13,32 +13,14 @@ import com.wanghuan.accountconfiguration.view.ACStatus;
  * Created by h1 on 16/3/29 15:34.
  * email: h18501667737@gmail.com
  */
-public class EnterNumber extends ObjectBase {
-
-
-    private PointF point1 = new PointF(measureWidth , measureHeight/2);
-    private PointF point2 = new PointF(measureWidth/2 , measureHeight/2 + measureHeight/6);
-    private PointF point3 = new PointF(measureWidth * 0.35f , measureHeight/2 + measureHeight/4);
-    private PointF point4 = new PointF(-measureWidth , measureHeight);
+public class EnterNumber extends ObjectPointBase {
 
     private float radius = 250;
 
     private PointF center = new PointF();
 
-    public PointF getPoint1() {
-        return point1;
-    }
-
     public PointF getPoint2() {
-        return point2;
-    }
-
-    public PointF getPoint3() {
-        return point3;
-    }
-
-    public PointF getPoint4() {
-        return point4;
+        return welcome_point2;
     }
 
     public PointF getCenter() {
@@ -76,7 +58,7 @@ public class EnterNumber extends ObjectBase {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 float value = (float) animation.getAnimatedValue();
-                center = calculate(point1, point2, value);
+                center = calculate(welcome_point1, welcome_point2, value);
                 view.postInvalidate();
                 ACStatus.animating = value != 1;
                 ACStatus.welcome1 = value == 1;
@@ -95,7 +77,7 @@ public class EnterNumber extends ObjectBase {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 float value = (float) animation.getAnimatedValue();
-                center = calculate(point2, point3, value);
+                center = calculate(welcome_point2, welcome_point3, value);
                 view.postInvalidate();
                 ACStatus.animating = value != 1;
             }
@@ -106,6 +88,19 @@ public class EnterNumber extends ObjectBase {
     @Override
     public void drawExit(final View view) {
         super.drawMove(view);
+        paint.setColor(colorBlue);
+        ValueAnimator valueAnimator = ValueAnimator.ofFloat(0,1);
+        valueAnimator.setDuration(1000);
+        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                float value = (float) animation.getAnimatedValue();
+                center = calculate(welcome_point3, welcome_point4, value);
+                view.postInvalidate();
+                ACStatus.animating = value != 1;
+            }
+        });
+        valueAnimator.start();
     }
 
 }

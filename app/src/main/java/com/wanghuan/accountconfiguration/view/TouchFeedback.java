@@ -7,4 +7,6 @@ package com.wanghuan.accountconfiguration.view;
 public interface TouchFeedback {
 
     void onClickWelcome1();
+
+    void onClickWelcomeStart();
 }

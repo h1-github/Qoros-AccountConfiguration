@@ -28,4 +28,13 @@ public class ACStatus {
     public static boolean sex_dash_always;
     public static boolean draw_sex_quad_head_icon;
 
+    public static boolean head_showing;
+    public static boolean head_dash_object;
+    public static boolean head_dash_camera;
+    public static boolean head_dash_album;
+    public static boolean head_dash_skip;
+    public static boolean head_dash_next;
+    public static boolean head_dash_always;
+    public static boolean draw_head_quad_birthday;
+
 }

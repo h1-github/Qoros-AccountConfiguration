@@ -17,8 +17,12 @@ import android.view.View;
 import com.wanghuan.accountconfiguration.R;
 import com.wanghuan.accountconfiguration.util.ACUtils;
 import com.wanghuan.accountconfiguration.util.ViewUtils;
+import com.wanghuan.accountconfiguration.view.objectviews.BirthdayObject;
 import com.wanghuan.accountconfiguration.view.objectviews.EnterNumber;
+import com.wanghuan.accountconfiguration.view.objectviews.HeadAlbumObject;
+import com.wanghuan.accountconfiguration.view.objectviews.HeadCameraObject;
 import com.wanghuan.accountconfiguration.view.objectviews.HeadIconObject;
+import com.wanghuan.accountconfiguration.view.objectviews.HeadSkipObject;
 import com.wanghuan.accountconfiguration.view.objectviews.SexBoyObject;
 import com.wanghuan.accountconfiguration.view.objectviews.SexGirlObject;
 import com.wanghuan.accountconfiguration.view.objectviews.SexObject;
@@ -53,6 +57,10 @@ public class AccountConfigurationView extends View{
     private HeadIconObject headIconObject;
     private SexBoyObject sexBoyObject;
     private SexGirlObject sexGirlObject;
+    private BirthdayObject birthdayObject;
+    private HeadCameraObject headCameraObject;
+    private HeadAlbumObject headAlbumObject;
+    private HeadSkipObject headSkipObject;
 
     private void init(Context context) {
         screenWidth = ViewUtils.getScreenWidthThoughContext(context);
@@ -74,6 +82,10 @@ public class AccountConfigurationView extends View{
         headIconObject = new HeadIconObject(context);
         sexBoyObject = new SexBoyObject(context);
         sexGirlObject = new SexGirlObject(context);
+        birthdayObject = new BirthdayObject(context);
+        headCameraObject = new HeadCameraObject(context);
+        headAlbumObject = new HeadAlbumObject(context);
+        headSkipObject = new HeadSkipObject(context);
     }
 
     public void startEnterNumber(){
@@ -149,6 +161,18 @@ public class AccountConfigurationView extends View{
         headIconObject.setText("头像");
         headIconObject.drawMove(this);
 
+        birthdayObject.setIsDraw(true);
+        birthdayObject.setText("下一步");
+        birthdayObject.drawEnter(this);
+
+        headCameraObject.setIsDraw(true);
+        headAlbumObject.setIsDraw(true);
+        headSkipObject.setIsDraw(true);
+        headCameraObject.drawEnter(this);
+        headAlbumObject.drawEnter(this);
+        headSkipObject.drawEnter(this);
+
+
 //        headIconObject.setIsDraw(true);
 //        headIconObject.setBgGreyColor();
 //        headIconObject.setText("下一步");
@@ -196,17 +220,13 @@ public class AccountConfigurationView extends View{
         }
 
         if(sexBoyObject.isDraw()){
-//            canvas.drawLine(sexObject.getCenter().x, sexObject.getCenter().y,
-//                    sexBoyObject.getCenter().x, sexBoyObject.getCenter().y,
-//                    ACStatus.sex_dash_boy || ACStatus.sex_dash_always
-//                            ? sexBoyObject.getBlueLinePaint() : sexBoyObject.getGreyLinePaint());
             Path path = new Path();
             path.moveTo(sexObject.getCenter().x , sexObject.getCenter().y);
             path.lineTo(sexBoyObject.getCenter().x, sexBoyObject.getCenter().y);
             canvas.drawPath(path,
                     ACStatus.sex_dash_boy ? sexBoyObject.getBlueLinePaint() : sexBoyObject.getGreyLinePaint());
             Path path2 = new Path();
-            path2.moveTo(sexBoyObject.getCenter().x , sexBoyObject.getCenter().y);
+            path2.moveTo(sexBoyObject.getCenter().x, sexBoyObject.getCenter().y);
             path2.lineTo(headIconObject.getCenter().x, headIconObject.getCenter().y);
             canvas.drawPath(path2,
                     (ACStatus.sex_dash_boy && ACStatus.sex_dash_next) ? sexBoyObject.getBlueLinePaint() : sexBoyObject.getGreyLinePaint());
@@ -224,6 +244,43 @@ public class AccountConfigurationView extends View{
                     (ACStatus.sex_dash_girl && ACStatus.sex_dash_next) ? sexGirlObject.getBlueLinePaint() : sexGirlObject.getGreyLinePaint());
         }
 
+        if(headCameraObject.isDraw()){
+            Path path = new Path();
+            path.moveTo(headIconObject.getCenter().x , headIconObject.getCenter().y);
+            path.lineTo(headCameraObject.getCenter().x, headCameraObject.getCenter().y);
+            canvas.drawPath(path,
+                    ACStatus.head_dash_camera ? headCameraObject.getBlueLinePaint() : headCameraObject.getGreyLinePaint());
+            Path path2 = new Path();
+            path2.moveTo(headCameraObject.getCenter().x , headCameraObject.getCenter().y);
+            path2.lineTo(birthdayObject.getCenter().x, birthdayObject.getCenter().y);
+            canvas.drawPath(path2,
+                    (ACStatus.head_dash_camera && ACStatus.head_dash_next) ? headCameraObject.getBlueLinePaint() : headCameraObject.getGreyLinePaint());
+        }
+        if(headAlbumObject.isDraw()){
+            Path path = new Path();
+            path.moveTo(headIconObject.getCenter().x , headIconObject.getCenter().y);
+            path.lineTo(headAlbumObject.getCenter().x, headAlbumObject.getCenter().y);
+            canvas.drawPath(path,
+                    ACStatus.head_dash_album ? headAlbumObject.getBlueLinePaint() : headAlbumObject.getGreyLinePaint());
+            Path path2 = new Path();
+            path2.moveTo(headAlbumObject.getCenter().x , headAlbumObject.getCenter().y);
+            path2.lineTo(birthdayObject.getCenter().x, birthdayObject.getCenter().y);
+            canvas.drawPath(path2,
+                    (ACStatus.head_dash_album && ACStatus.head_dash_next) ? headAlbumObject.getBlueLinePaint() : headAlbumObject.getGreyLinePaint());
+        }
+        if(headSkipObject.isDraw()){
+            Path path = new Path();
+            path.moveTo(headIconObject.getCenter().x , headIconObject.getCenter().y);
+            path.lineTo(headSkipObject.getCenter().x, headSkipObject.getCenter().y);
+            canvas.drawPath(path,
+                    ACStatus.head_dash_skip ? headSkipObject.getBlueLinePaint() : headSkipObject.getGreyLinePaint());
+            Path path2 = new Path();
+            path2.moveTo(headSkipObject.getCenter().x , headSkipObject.getCenter().y);
+            path2.lineTo(birthdayObject.getCenter().x, birthdayObject.getCenter().y);
+            canvas.drawPath(path2,
+                    (ACStatus.head_dash_skip && ACStatus.head_dash_next) ? headSkipObject.getBlueLinePaint() : headSkipObject.getGreyLinePaint());
+        }
+
         /**
          * draw moving Lines
          */
@@ -234,6 +291,10 @@ public class AccountConfigurationView extends View{
         }
         if(ACStatus.sex_showing && ACStatus.sex_dash_object){
             canvas.drawLine(sexObject.getCenter().x, sexObject.getCenter().y,
+                    x, y, MOVE_LINE_PAINT);
+        }
+        if(ACStatus.head_showing && ACStatus.head_dash_object){
+            canvas.drawLine(headIconObject.getCenter().x, headIconObject.getCenter().y,
                     x, y, MOVE_LINE_PAINT);
         }
 
@@ -252,6 +313,13 @@ public class AccountConfigurationView extends View{
             path.moveTo(sexObject.getCenter().x, sexObject.getCenter().y);
             PointF quadPoint = ACUtils.calculateQuadPoint(sexObject.getCenter(), headIconObject.getCenter(), ACUtils.QUAD_TYPE_LEFT_TOP);
             path.quadTo(quadPoint.x, quadPoint.y, headIconObject.getCenter().x, headIconObject.getCenter().y);
+            canvas.drawPath(path, MOVE_QUAD_LINE_PAINT);
+        }
+        if(ACStatus.draw_head_quad_birthday){
+            Path path = new Path();
+            path.moveTo(headIconObject.getCenter().x, headIconObject.getCenter().y);
+            PointF quadPoint = ACUtils.calculateQuadPoint(headIconObject.getCenter(), birthdayObject.getCenter(), ACUtils.QUAD_TYPE_LEFT_TOP);
+            path.quadTo(quadPoint.x, quadPoint.y, birthdayObject.getCenter().x, birthdayObject.getCenter().y);
             canvas.drawPath(path, MOVE_QUAD_LINE_PAINT);
         }
 
@@ -303,6 +371,32 @@ public class AccountConfigurationView extends View{
             canvas.drawText(sexGirlObject.getText(), sexGirlObject.getCenter().x, sexGirlObject.getCenter().y, sexGirlObject.getTextPaint());
         }
 
+        if(birthdayObject.isDraw()){
+            Bitmap bitmap = BitmapFactory.decodeResource(getResources(),
+                    ACStatus.head_dash_next? R.mipmap.ac_normal_bg : R.mipmap.ac_bg_grey);
+            canvas.drawBitmap(bitmap , null ,
+                    ACUtils.getBitmapRect(birthdayObject.getCenter() , birthdayObject.getRadius()) , null);
+            canvas.drawText(birthdayObject.getText(), birthdayObject.getCenter().x, birthdayObject.getCenter().y, birthdayObject.getTextPaint());
+        }
+        if(headCameraObject.isDraw()){
+            Bitmap bitmap = BitmapFactory.decodeResource(getResources(),
+                    ACStatus.head_dash_camera ? R.mipmap.ac_icon_carmera_touched : R.mipmap.ac_icon_carmera);
+            canvas.drawBitmap(bitmap, null,
+                    ACUtils.getBitmapRect(headCameraObject.getCenter(), headCameraObject.getRadius()), null);
+        }
+        if(headAlbumObject.isDraw()){
+            Bitmap bitmap = BitmapFactory.decodeResource(getResources(),
+                    ACStatus.head_dash_album ? R.mipmap.ac_icon_carmera_touched : R.mipmap.ac_icon_album);
+            canvas.drawBitmap(bitmap, null,
+                    ACUtils.getBitmapRect(headAlbumObject.getCenter(), headAlbumObject.getRadius()), null);
+        }
+        if(headSkipObject.isDraw()){
+            Bitmap bitmap = BitmapFactory.decodeResource(getResources(),
+                    ACStatus.head_dash_skip ? R.mipmap.ac_icon_carmera_touched : R.mipmap.ac_icon_skip);
+            canvas.drawBitmap(bitmap, null,
+                    ACUtils.getBitmapRect(headSkipObject.getCenter(), headSkipObject.getRadius()), null);
+        }
+
     }
 
     @Override
@@ -320,6 +414,11 @@ public class AccountConfigurationView extends View{
                 if(ACStatus.sex_showing
                         && ACUtils.withPointRadius(x, y, sexObject.getCenter() , sexObject.getRadius())){
                     ACStatus.sex_dash_object = true;
+                }
+                //head icon
+                if(ACStatus.head_showing
+                        && ACUtils.withPointRadius(x, y, headIconObject.getCenter() , headIconObject.getRadius())){
+                    ACStatus.head_dash_object = true;
                 }
                 break;
             case MotionEvent.ACTION_MOVE:
@@ -347,6 +446,28 @@ public class AccountConfigurationView extends View{
                 ACStatus.sex_dash_next = (ACStatus.sex_dash_boy || ACStatus.sex_dash_girl)
                         && ACUtils.withPointRadius(x, y, headIconObject.getCenter() , headIconObject.getRadius());
 
+                //head icon
+                if(ACStatus.head_showing == true
+                        && ACStatus.head_dash_object
+                        && ACUtils.withPointRadius(x, y, headCameraObject.getCenter() , headCameraObject.getRadius())){
+                    ACStatus.head_dash_camera = true;
+                    ACStatus.head_dash_album = false;
+                    ACStatus.head_dash_skip = false;
+                }
+                if(ACStatus.head_showing == true
+                        && ACStatus.head_dash_object
+                        && ACUtils.withPointRadius(x, y, headAlbumObject.getCenter() , headAlbumObject.getRadius())){
+                    ACStatus.head_dash_album = true;
+                    ACStatus.head_dash_camera = false;
+                    ACStatus.head_dash_skip = false;
+                }
+                if(ACStatus.head_showing == true
+                        && ACStatus.head_dash_object
+                        && ACUtils.withPointRadius(x, y, headSkipObject.getCenter() , headSkipObject.getRadius())){
+                    ACStatus.head_dash_skip = true;
+                    ACStatus.head_dash_camera = false;
+                    ACStatus.head_dash_album = false;
+                }
                 break;
             case MotionEvent.ACTION_UP:
                 if(ACStatus.welcome1
@@ -368,6 +489,18 @@ public class AccountConfigurationView extends View{
                     ACStatus.sex_dash_boy = false;
                     ACStatus.sex_dash_girl = false;
                     ACStatus.sex_dash_next = false;
+                }
+
+                if(ACStatus.head_showing && ACStatus.head_dash_next && touchFeedback!= null){
+                    ACStatus.head_dash_always = true;
+                    ACStatus.head_dash_object = false;
+                    touchFeedback.onClickHeadNext();
+                }else{
+                    ACStatus.head_dash_object = false;
+                    ACStatus.head_dash_camera = false;
+                    ACStatus.head_dash_album = false;
+                    ACStatus.head_dash_skip = false;
+                    ACStatus.head_dash_next = false;
                 }
 
                 ACStatus.welcome_dash_number = false;

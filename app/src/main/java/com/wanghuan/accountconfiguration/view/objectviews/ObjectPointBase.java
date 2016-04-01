@@ -11,6 +11,8 @@ import com.wanghuan.accountconfiguration.util.ACUtils;
  */
 public abstract class ObjectPointBase extends ObjectBase{
 
+    private final static float POINT_3_OFFSET = 0.3f;
+
     public ObjectPointBase(Context context) {
         super(context);
     }
@@ -33,12 +35,12 @@ public abstract class ObjectPointBase extends ObjectBase{
 
     public PointF welcome_point1 = new PointF(measureWidth , measureHeight/2);
     public PointF welcome_point2 = new PointF(measureWidth/2 , measureHeight/2 + measureHeight/6);
-    public PointF welcome_point3 = new PointF(measureWidth * 0.35f , measureHeight/2 + measureHeight/4);
+    public PointF welcome_point3 = new PointF(measureWidth * POINT_3_OFFSET , measureHeight/2 + measureHeight/4);
     public PointF welcome_point4 = new PointF(-measureWidth , measureHeight);
 
     public PointF sex_point1 = new PointF(measureWidth + SEX_DEFAULT_RADIUS , measureHeight/2);
     public PointF sex_point2 = new PointF(measureWidth - SEX_DEFAULT_RADIUS * 0.6f, measureHeight/2);
-    public PointF sex_point3 = new PointF(measureWidth * 0.35f , measureHeight/2 + measureHeight/4);
+    public PointF sex_point3 = new PointF(measureWidth * POINT_3_OFFSET , measureHeight/2 + measureHeight/4);
     public PointF sex_point4 = new PointF(-measureWidth , measureHeight);
 
     public PointF welcome_dot_point1 = new PointF(measureWidth + DOT_DEFAULT_RADIUS , measureHeight/2);
@@ -48,7 +50,7 @@ public abstract class ObjectPointBase extends ObjectBase{
 
     public PointF headIcon_point1 = new PointF(measureWidth + SEX_DEFAULT_RADIUS , measureHeight/2);
     public PointF headIcon_point2 = new PointF(measureWidth - SEX_DEFAULT_RADIUS * 0.6f, measureHeight/2);
-    public PointF headIcon_point3 = new PointF(measureWidth * 0.35f , measureHeight/2 + measureHeight/4);
+    public PointF headIcon_point3 = new PointF(measureWidth * POINT_3_OFFSET , measureHeight/2 + measureHeight/4);
     public PointF headIcon_point4 = new PointF(-measureWidth , measureHeight);
 
     public PointF sexBoy_point1 = new PointF(measureWidth + SEX_DEFAULT_RADIUS , measureHeight/2);
@@ -60,6 +62,28 @@ public abstract class ObjectPointBase extends ObjectBase{
     public PointF sexGirl_point2 = new PointF(measureWidth * 0.75f, measureHeight * 0.75f);
     public PointF sexGirl_point3 = ACUtils.calculateMidPoint(sex_point3 , headIcon_point2);
     public PointF sexGirl_point4 = new PointF(-measureWidth , measureHeight);
+
+    public PointF headCamera_point1 = new PointF(measureWidth + SEX_DEFAULT_RADIUS , measureHeight/2);
+    public PointF headCamera_point2 = new PointF(measureWidth * 0.35f, measureHeight * 0.4f);
+    public PointF headCamera_point3 = ACUtils.calculateMidPoint(sex_point3 , headIcon_point2);
+    public PointF headCamera_point4 = new PointF(-measureWidth , measureHeight);
+
+    public PointF headAlbum_point1 = new PointF(measureWidth + SEX_DEFAULT_RADIUS , measureHeight/2);
+    public PointF headAlbum_point2 = new PointF(measureWidth * 0.5f, measureHeight * 0.55f);
+    public PointF headAlbum_point3 = ACUtils.calculateMidPoint(sex_point3 , headIcon_point2);
+    public PointF headAlbum_point4 = new PointF(-measureWidth , measureHeight);
+
+    public PointF headSkip_point1 = new PointF(measureWidth + SEX_DEFAULT_RADIUS , measureHeight/2);
+    public PointF headSkip_point2 = new PointF(measureWidth * 0.75f, measureHeight * 0.65f);
+    public PointF headSkip_point3 = ACUtils.calculateMidPoint(sex_point3 , headIcon_point2);
+    public PointF headSkip_point4 = new PointF(-measureWidth , measureHeight);
+
+    public PointF birthday_point1 = new PointF(measureWidth + SEX_DEFAULT_RADIUS , measureHeight/2);
+    public PointF birthday_point2 = new PointF(measureWidth - SEX_DEFAULT_RADIUS * 0.6f, measureHeight * 0.3f);
+    public PointF birthday_point3 = new PointF(measureWidth * POINT_3_OFFSET , measureHeight/2 + measureHeight/4);
+    public PointF birthday_point4 = new PointF(-measureWidth , measureHeight);
+
+
 
 
 }

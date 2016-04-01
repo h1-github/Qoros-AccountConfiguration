@@ -22,4 +22,9 @@ public abstract class TouchFeedbackListener implements TouchFeedback{
     public void onClickSexNext() {
 
     }
+
+    @Override
+    public void onClickHeadNext() {
+
+    }
 }

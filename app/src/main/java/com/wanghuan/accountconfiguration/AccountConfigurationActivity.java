@@ -168,6 +168,7 @@ public class AccountConfigurationActivity extends Activity implements StepCallba
         startTitleAnimation();
         startSubTitleAnimation();
         acView.sexExitHeadIconEnter();
+
     }
 
     @Override
@@ -212,6 +213,11 @@ public class AccountConfigurationActivity extends Activity implements StepCallba
         public void onClickSexNext() {
             super.onClickSexNext();
             sexExit();
+        }
+
+        @Override
+        public void onClickHeadNext() {
+            super.onClickHeadNext();
         }
     };
 

@@ -53,12 +53,12 @@ public abstract class ObjectPointBase extends ObjectBase{
 
     public PointF sexBoy_point1 = new PointF(measureWidth + SEX_DEFAULT_RADIUS , measureHeight/2);
     public PointF sexBoy_point2 = new PointF(measureWidth * 0.35f, measureHeight/2);
-    public PointF sexBoy_point3 = new PointF(measureWidth * 0.35f , measureHeight/2 + measureHeight/4);
+    public PointF sexBoy_point3 = ACUtils.calculateMidPoint(sex_point3 , headIcon_point2);
     public PointF sexBoy_point4 = new PointF(-measureWidth , measureHeight);
 
     public PointF sexGirl_point1 = new PointF(measureWidth + SEX_DEFAULT_RADIUS , measureHeight/2);
     public PointF sexGirl_point2 = new PointF(measureWidth * 0.75f, measureHeight * 0.75f);
-    public PointF sexGirl_point3 = new PointF(measureWidth * 0.35f , measureHeight/2 + measureHeight/4);
+    public PointF sexGirl_point3 = ACUtils.calculateMidPoint(sex_point3 , headIcon_point2);
     public PointF sexGirl_point4 = new PointF(-measureWidth , measureHeight);
 
 

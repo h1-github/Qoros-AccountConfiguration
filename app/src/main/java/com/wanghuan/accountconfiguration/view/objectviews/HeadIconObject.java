@@ -35,4 +35,37 @@ public class HeadIconObject extends ObjectPointBase{
         valueAnimator.start();
     }
 
+    @Override
+    public void drawMove(final View view) {
+        super.drawMove(view);
+        ValueAnimator valueAnimator = ValueAnimator.ofFloat(0,1);
+        valueAnimator.setDuration(1000);
+        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                float value = (float) animation.getAnimatedValue();
+                center = calculate(headIcon_point2, headIcon_point3, value);
+                view.postInvalidate();
+                ACStatus.animating = value != 1;
+            }
+        });
+        valueAnimator.start();
+    }
+
+    @Override
+    public void drawExit(final View view) {
+        super.drawExit(view);
+        ValueAnimator valueAnimator = ValueAnimator.ofFloat(0,1);
+        valueAnimator.setDuration(1000);
+        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                float value = (float) animation.getAnimatedValue();
+                center = calculate(headIcon_point3, headIcon_point4, value);
+                view.postInvalidate();
+                ACStatus.animating = value != 1;
+            }
+        });
+        valueAnimator.start();
+    }
 }

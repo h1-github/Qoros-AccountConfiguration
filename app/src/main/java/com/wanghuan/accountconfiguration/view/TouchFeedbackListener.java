@@ -14,6 +14,12 @@ public abstract class TouchFeedbackListener implements TouchFeedback{
 
     @Override
     public void onClickWelcomeStart() {
+        ACStatus.welcome_showing = false;
+        ACStatus.sex_showing = true;
+    }
+
+    @Override
+    public void onClickSexNext() {
 
     }
 }

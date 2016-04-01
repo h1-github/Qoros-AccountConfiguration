@@ -66,7 +66,7 @@ public class SexGirlObject extends ObjectPointBase {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 float value = (float) animation.getAnimatedValue();
-                center = calculate(welcome_dot_point2, welcome_dot_point3, value);
+                center = calculate(sexGirl_point2, sexGirl_point3, value);
                 view.postInvalidate();
                 ACStatus.animating = value != 1;
             }

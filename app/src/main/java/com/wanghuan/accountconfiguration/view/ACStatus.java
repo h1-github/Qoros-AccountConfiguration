@@ -20,6 +20,8 @@ public class ACStatus {
     public static boolean sex1;
     public static boolean sex2;
 
+    public static boolean sex_showing;
+    public static boolean sex_dash_object;
     public static boolean sex_dash_boy;
     public static boolean sex_dash_girl;
     public static boolean sex_dash_next;

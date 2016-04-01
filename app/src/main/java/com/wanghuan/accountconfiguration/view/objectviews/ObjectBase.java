@@ -95,7 +95,7 @@ public abstract class ObjectBase implements ObjectInterface{
         paint.setAntiAlias(true);
 
         colorWhite = Color.WHITE;
-        colorBlue = Color.parseColor("#6699FF");
+        colorBlue = Color.parseColor("#009BF4");
         colorGrey = Color.parseColor("#DDDDDD");
     }
 

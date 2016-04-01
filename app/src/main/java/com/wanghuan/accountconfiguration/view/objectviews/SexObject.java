@@ -2,7 +2,6 @@ package com.wanghuan.accountconfiguration.view.objectviews;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
-import android.graphics.Paint;
 import android.graphics.PointF;
 import android.view.View;
 
@@ -79,7 +78,7 @@ public class SexObject extends ObjectPointBase {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 float value = (float) animation.getAnimatedValue();
-                center = calculate(sex_point1, sex_point3, value);
+                center = calculate(sex_point3, sex_point4, value);
                 view.postInvalidate();
                 ACStatus.animating = value != 1;
             }

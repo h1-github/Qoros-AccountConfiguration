@@ -28,6 +28,8 @@ public class AccountConfigurationActivity extends Activity implements StepCallba
     private final static int WELCOME_ENTER_ANIMATION = 1002;
     private final static int DRAW_WELCOME_QUAD_SEX = 1003;
     private final static int WELCOME_TO_SEX = 1004;
+    private final static int DRAW_SEX_QUAD_HEAD_ICON = 1005;
+    private final static int SEX_TO_HEAD_ICON = 1006;
 
     @Bind(R.id.title)
     TextView title;
@@ -64,6 +66,12 @@ public class AccountConfigurationActivity extends Activity implements StepCallba
                     break;
                 case WELCOME_TO_SEX:
                     welcomeExitSexEnter();
+                    break;
+                case DRAW_SEX_QUAD_HEAD_ICON:
+                    drawQuadLine(DRAW_SEX_QUAD_HEAD_ICON);
+                    break;
+                case SEX_TO_HEAD_ICON:
+                    sexExitHeadIconEnter();
                     break;
             }
         }
@@ -133,11 +141,33 @@ public class AccountConfigurationActivity extends Activity implements StepCallba
 
     @Override
     public void welcomeExitSexEnter() {
+        stepImage.setBackgroundResource(R.mipmap.welcome_step_2);
         title.setText("性别");
         subTitle.setText("请选择你的性别");
         startTitleAnimation();
         startSubTitleAnimation();
         acView.welcomeExitSexEnter();
+    }
+
+    @Override
+    public void sexExit() {
+        acView.sexDotMove();
+        Message message = new Message();
+        message.what = DRAW_SEX_QUAD_HEAD_ICON;
+        handler.sendMessageDelayed(message, 900);
+        Message message2 = new Message();
+        message2.what = SEX_TO_HEAD_ICON;
+        handler.sendMessageDelayed(message2, 1800);
+    }
+
+    @Override
+    public void sexExitHeadIconEnter() {
+        stepImage.setBackgroundResource(R.mipmap.welcome_step_3);
+        title.setText("头像");
+        subTitle.setText("晒出你的\n时代独立者的一面");
+        startTitleAnimation();
+        startSubTitleAnimation();
+        acView.sexExitHeadIconEnter();
     }
 
     @Override
@@ -177,12 +207,21 @@ public class AccountConfigurationActivity extends Activity implements StepCallba
             super.onClickWelcomeStart();
             welcomeExit();
         }
+
+        @Override
+        public void onClickSexNext() {
+            super.onClickSexNext();
+            sexExit();
+        }
     };
 
     private void drawQuadLine(int lineType){
         switch (lineType){
             case DRAW_WELCOME_QUAD_SEX:
                 acView.drawWelcomeQuadToSex();
+                break;
+            case DRAW_SEX_QUAD_HEAD_ICON:
+                acView.drawSexQuadToHeadIcon();
                 break;
         }
     }

@@ -1,6 +1,9 @@
 package com.wanghuan.accountconfiguration.util;
 
+import android.graphics.Bitmap;
 import android.graphics.PointF;
+import android.graphics.Rect;
+import android.graphics.RectF;
 
 /**
  * Created by h1 on 16/3/29 15:00.
@@ -57,6 +60,26 @@ public class ACUtils {
         PointF middle = new PointF();
         middle.set((start.x + end.x)/2 , (start.y + end.y)/2);
         return middle;
+    }
+    public static PointF drawBitmapOffset(PointF center , Bitmap bitmap){
+        PointF offset = new PointF();
+        if(bitmap == null || bitmap.getWidth() < 0){
+            return center;
+        }
+        offset.set(center.x - bitmap.getWidth()/2 , center.y - bitmap.getHeight()/2);
+        return offset;
+    }
+
+    public static Rect getBitmapRect(PointF center , float radius){
+        RectF rectF = new RectF();
+        rectF.set(center.x - radius , center.y - radius , center.x + radius , center.y + radius);
+        return rectF2Rect(rectF);
+    }
+
+    public static Rect rectF2Rect(RectF rectF){
+        Rect rect = new Rect();
+        rect.set((int)rectF.left , (int)rectF.top , (int)rectF.right , (int)rectF.bottom);
+        return rect;
     }
 
 }

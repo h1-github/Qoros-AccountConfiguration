@@ -9,4 +9,6 @@ public interface TouchFeedback {
     void onClickWelcome1();
 
     void onClickWelcomeStart();
+
+    void onClickSexNext();
 }

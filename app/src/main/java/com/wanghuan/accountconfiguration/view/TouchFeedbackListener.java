@@ -20,11 +20,28 @@ public abstract class TouchFeedbackListener implements TouchFeedback{
 
     @Override
     public void onClickSexNext() {
-
+        ACStatus.sex_showing = false;
+        ACStatus.head_showing = true;
     }
 
     @Override
     public void onClickHeadNext() {
 
     }
+
+    @Override
+    public void onClickHeadCamera() {
+
+    }
+
+    @Override
+    public void onClickHeadAlbum() {
+
+    }
+
+    @Override
+    public void onClickHeadSkip() {
+
+    }
+
 }

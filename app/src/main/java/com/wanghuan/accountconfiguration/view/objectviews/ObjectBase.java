@@ -177,6 +177,13 @@ public abstract class ObjectBase implements ObjectInterface{
         return paint;
     }
 
+    public Paint getDotWhitePaint(){
+        Paint paint = new Paint();
+        paint.setAntiAlias(true);
+        paint.setColor(Color.WHITE);
+        return paint;
+    }
+
     @Override
     public void drawEnter(View view) {
 

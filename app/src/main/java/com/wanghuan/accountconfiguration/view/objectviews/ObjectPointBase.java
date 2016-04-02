@@ -18,13 +18,29 @@ public abstract class ObjectPointBase extends ObjectBase{
     }
 
     private float radius = SEX_DEFAULT_RADIUS;
+    private float radius_dot = DOT_DEFAULT_RADIUS;
+    private float radius_dot_core = DOT_DEFAULT_RADIUS_CORE;
+    private float radius_dot_action = DOT_DEFAULT_RADIUS_ACTION;
+    private float radius_small = SEX_ITEM_DEFAULT_RADIUS;
 
     public float getRadius() {
         return radius;
     }
 
-    public void setRadius(float radius) {
-        this.radius = radius;
+    public float getRadius_dot() {
+        return radius_dot;
+    }
+
+    public float getRadius_dot_core() {
+        return radius_dot_core;
+    }
+
+    public float getRadius_dot_action() {
+        return radius_dot_action;
+    }
+
+    public float getRadius_small() {
+        return radius_small;
     }
 
     public final static int SEX_DEFAULT_RADIUS = 200;
@@ -77,6 +93,16 @@ public abstract class ObjectPointBase extends ObjectBase{
     public PointF headSkip_point2 = new PointF(measureWidth * 0.75f, measureHeight * 0.65f);
     public PointF headSkip_point3 = ACUtils.calculateMidPoint(sex_point3 , headIcon_point2);
     public PointF headSkip_point4 = new PointF(-measureWidth , measureHeight);
+
+    public PointF headDot_point1 = new PointF(measureWidth + SEX_DEFAULT_RADIUS , measureHeight/2);
+    public PointF headDot_point2 = new PointF(measureWidth * 0.45f, measureHeight * 0.4f);
+    public PointF headDot_point3 = ACUtils.calculateMidPoint(sex_point3 , headIcon_point2);
+    public PointF headDot_point4 = new PointF(-measureWidth , measureHeight);
+
+    public PointF headChange_point1 = new PointF(measureWidth + SEX_DEFAULT_RADIUS , measureHeight/2);
+    public PointF headChange_point2 = new PointF(measureWidth * 0.75f, measureHeight * 0.85f);
+    public PointF headChange_point3 = ACUtils.calculateMidPoint(sex_point3 , headIcon_point2);
+    public PointF headChange_point4 = new PointF(-measureWidth , measureHeight);
 
     public PointF birthday_point1 = new PointF(measureWidth + SEX_DEFAULT_RADIUS , measureHeight/2);
     public PointF birthday_point2 = new PointF(measureWidth - SEX_DEFAULT_RADIUS * 0.6f, measureHeight * 0.3f);

@@ -37,4 +37,7 @@ public class ACStatus {
     public static boolean head_dash_always;
     public static boolean draw_head_quad_birthday;
 
+    public static boolean head_dash_dot;
+    public static boolean head_dash_change;
+
 }

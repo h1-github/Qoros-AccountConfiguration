@@ -1,9 +1,18 @@
 package com.wanghuan.accountconfiguration;
 
+import android.Manifest;
 import android.app.Activity;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.preference.PreferenceManager;
+import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,6 +24,8 @@ import com.wanghuan.accountconfiguration.util.ViewUtils;
 import com.wanghuan.accountconfiguration.view.AccountConfigurationView;
 import com.wanghuan.accountconfiguration.view.TouchFeedbackListener;
 
+import java.io.File;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -24,12 +35,148 @@ import butterknife.ButterKnife;
  */
 public class AccountConfigurationActivity extends Activity implements StepCallback{
 
-    private final static int ENTER_ICON_ANIMATION = 1001;
-    private final static int WELCOME_ENTER_ANIMATION = 1002;
-    private final static int DRAW_WELCOME_QUAD_SEX = 1003;
-    private final static int WELCOME_TO_SEX = 1004;
-    private final static int DRAW_SEX_QUAD_HEAD_ICON = 1005;
-    private final static int SEX_TO_HEAD_ICON = 1006;
+    private final String SAVE_DATA_NAME = "wel_save_data_name";
+    private final String SAVE_DATA_PATH = "wel_save_data_path";
+    /**
+     * 拍照
+     */
+    public final int CODE_CAMERA = 101;
+    /**
+     * 图库
+     */
+    public final int CODE_PHOTO = 102;
+    /**
+     * 图库 4.4以上版本*/
+    public final int CODE_PHOTO_URI = 105;
+
+    /**
+     * 裁剪
+     */
+    public final int CODE_CAT = 103;
+    /**
+     * 预览
+     */
+    public final int CODE_PREVIEW = 104;
+    private int outSize = 200;
+
+    /**
+     * 图片缓存路径
+     * */
+    private String DATA_PATH = "";
+    /**
+     * 图片的名字
+     * */
+    private String DATA_NAME = "";
+
+    private String createDataName() {
+        return "qoros_cache.jpg";
+    }
+
+    public String createDataPath() {
+        return DATA_PATH + File.separator + DATA_NAME;
+    }
+
+    /**
+     * 拍照
+     */
+    public void requestToCamera() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA},
+                    CODE_CAMERA);
+        }else{
+            toCamera();
+        }
+    }
+
+    public void toCamera() {
+        Intent mIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        DATA_NAME = createDataName();
+        File f = new File(DATA_PATH, DATA_NAME);
+        mIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
+        savePath();
+        startActivityForResult(mIntent, CODE_CAMERA);
+    }
+
+    /**
+     * 图库
+     */
+    public void requestToPhoto() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                    CODE_PHOTO);
+        }else{
+            toPhoto();
+        }
+    }
+
+    public void toPhoto() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);// ACTION_OPEN_DOCUMENT
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("image/jpeg");
+        if (android.os.Build.VERSION.SDK_INT >= 19) {
+            startActivityForResult(intent, CODE_PHOTO_URI);
+        } else {
+            startActivityForResult(intent, CODE_PHOTO);
+        }
+    }
+
+    /**
+     * 裁剪图片
+     * */
+    public void toCatPicture(Intent mIntent,int code) {
+//        Intent intent = new Intent(this, ActivityCutPhoto.class);
+//        intent.putExtra(ActivityCutPhoto.OUT_PATH, getResultUriToPath(code, mIntent));
+//        intent.putExtra(ActivityCutPhoto.OUT_SIZE, outSize);
+//        startActivityForResult(intent, CODE_CAT);
+    }
+
+    private void savePath() {
+        SharedPreferences.Editor edit = PreferenceManager.getDefaultSharedPreferences(
+                this).edit();
+        edit.putString(SAVE_DATA_NAME, DATA_NAME);
+        edit.putString(SAVE_DATA_PATH, DATA_PATH);
+        edit.apply();
+    }
+
+    private void readPath() {
+        SharedPreferences sp = PreferenceManager
+                .getDefaultSharedPreferences(this);
+        DATA_NAME = sp.getString(SAVE_DATA_NAME, "");
+        DATA_PATH = sp.getString(SAVE_DATA_PATH, "");
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == CODE_CAMERA||requestCode == CODE_PHOTO||requestCode == CODE_PHOTO_URI){
+            if(resultCode == Activity.RESULT_OK){
+                toCatPicture(data, requestCode);
+            }
+        }else if(requestCode == CODE_CAT && resultCode == Activity.RESULT_OK){
+
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == CODE_PHOTO) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                toPhoto();
+            } else {
+                // Permission Denied
+            }
+        }
+        if (requestCode == CODE_CAMERA) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                toCamera();
+            } else {
+                // Permission Denied
+            }
+        }
+    }
 
     @Bind(R.id.title)
     TextView title;
@@ -42,11 +189,21 @@ public class AccountConfigurationActivity extends Activity implements StepCallba
     @Bind(R.id.account_configuration_view)
     AccountConfigurationView acView;
 
+    private final static int ENTER_ICON_ANIMATION = 1001;
+    private final static int WELCOME_ENTER_ANIMATION = 1002;
+    private final static int DRAW_WELCOME_QUAD_SEX = 1003;
+    private final static int WELCOME_TO_SEX = 1004;
+    private final static int DRAW_SEX_QUAD_HEAD_ICON = 1005;
+    private final static int SEX_TO_HEAD_ICON = 1006;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.account_configuration_layout);
         ButterKnife.bind(this);
+
+        DATA_PATH = this.getExternalCacheDir().getAbsolutePath();
+
         acView.setTouchFeedback(touchFeedbackListener);
         enter();
     }
@@ -219,6 +376,24 @@ public class AccountConfigurationActivity extends Activity implements StepCallba
         public void onClickHeadNext() {
             super.onClickHeadNext();
         }
+
+        @Override
+        public void onClickHeadCamera() {
+            super.onClickHeadCamera();
+            requestToCamera();
+        }
+
+        @Override
+        public void onClickHeadAlbum() {
+            super.onClickHeadAlbum();
+            requestToPhoto();
+        }
+
+        @Override
+        public void onClickHeadSkip() {
+            super.onClickHeadSkip();
+        }
+
     };
 
     private void drawQuadLine(int lineType){

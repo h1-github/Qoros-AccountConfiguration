@@ -12,5 +12,9 @@ public interface TouchFeedback {
 
     void onClickSexNext();
 
+    void onClickHeadCamera();
+    void onClickHeadAlbum();
+    void onClickHeadSkip();
+
     void onClickHeadNext();
 }

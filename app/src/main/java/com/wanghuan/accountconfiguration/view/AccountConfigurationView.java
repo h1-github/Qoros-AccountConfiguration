@@ -21,6 +21,8 @@ import com.wanghuan.accountconfiguration.view.objectviews.BirthdayObject;
 import com.wanghuan.accountconfiguration.view.objectviews.EnterNumber;
 import com.wanghuan.accountconfiguration.view.objectviews.HeadAlbumObject;
 import com.wanghuan.accountconfiguration.view.objectviews.HeadCameraObject;
+import com.wanghuan.accountconfiguration.view.objectviews.HeadChangeObject;
+import com.wanghuan.accountconfiguration.view.objectviews.HeadDotObject;
 import com.wanghuan.accountconfiguration.view.objectviews.HeadIconObject;
 import com.wanghuan.accountconfiguration.view.objectviews.HeadSkipObject;
 import com.wanghuan.accountconfiguration.view.objectviews.SexBoyObject;
@@ -61,6 +63,8 @@ public class AccountConfigurationView extends View{
     private HeadCameraObject headCameraObject;
     private HeadAlbumObject headAlbumObject;
     private HeadSkipObject headSkipObject;
+    private HeadDotObject headDotObject;
+    private HeadChangeObject headChangeObject;
 
     private void init(Context context) {
         screenWidth = ViewUtils.getScreenWidthThoughContext(context);
@@ -86,6 +90,8 @@ public class AccountConfigurationView extends View{
         headCameraObject = new HeadCameraObject(context);
         headAlbumObject = new HeadAlbumObject(context);
         headSkipObject = new HeadSkipObject(context);
+        headDotObject = new HeadDotObject(context);
+        headChangeObject = new HeadChangeObject(context);
     }
 
     public void startEnterNumber(){
@@ -164,29 +170,25 @@ public class AccountConfigurationView extends View{
         birthdayObject.setIsDraw(true);
         birthdayObject.setText("下一步");
         birthdayObject.drawEnter(this);
+        HeadCameraAlbumSkipEnter();
+    }
 
+    public void HeadCameraAlbumSkipEnter(){
         headCameraObject.setIsDraw(true);
         headAlbumObject.setIsDraw(true);
         headSkipObject.setIsDraw(true);
         headCameraObject.drawEnter(this);
         headAlbumObject.drawEnter(this);
         headSkipObject.drawEnter(this);
+    }
 
+    public void HeadDotChangeEnter(){
+        headDotObject.setIsDraw(true);
+        headDotObject.drawEnter(this);
+        headChangeObject.setIsDraw(true);
+        headChangeObject.setText("更改");
+        headChangeObject.drawEnter(this);
 
-//        headIconObject.setIsDraw(true);
-//        headIconObject.setBgGreyColor();
-//        headIconObject.setText("下一步");
-//        headIconObject.drawEnter(this);
-//
-//        sexBoyObject.setIsDraw(true);
-//        sexBoyObject.setBgGreyColor();
-//        sexBoyObject.setText("男");
-//        sexBoyObject.drawEnter(this);
-//
-//        sexGirlObject.setIsDraw(true);
-//        sexGirlObject.setBgGreyColor();
-//        sexGirlObject.setText("女");
-//        sexGirlObject.drawEnter(this);
     }
 
     @Override
@@ -216,7 +218,6 @@ public class AccountConfigurationView extends View{
                             ? welcomeDotObject.getBlueDotPaint() : welcomeDotObject.getGreyDotPaint());
             canvas.drawCircle(welcomeDotObject.getCenter().x , welcomeDotObject.getCenter().y ,
                     welcomeDotObject.getRadiusCore() , welcomeDotObject.getDotWhitePaint());
-
         }
 
         if(sexBoyObject.isDraw()){
@@ -279,6 +280,32 @@ public class AccountConfigurationView extends View{
             path2.lineTo(birthdayObject.getCenter().x, birthdayObject.getCenter().y);
             canvas.drawPath(path2,
                     (ACStatus.head_dash_skip && ACStatus.head_dash_next) ? headSkipObject.getBlueLinePaint() : headSkipObject.getGreyLinePaint());
+        }
+
+        if(headDotObject.isDraw()){
+            Path path = new Path();
+            path.moveTo(headIconObject.getCenter().x , headIconObject.getCenter().y);
+            path.lineTo(headDotObject.getCenter().x, headDotObject.getCenter().y);
+            canvas.drawPath(path,
+                    ACStatus.head_dash_dot ? headDotObject.getBlueLinePaint() : headDotObject.getGreyLinePaint());
+            Path path2 = new Path();
+            path2.moveTo(headDotObject.getCenter().x, headDotObject.getCenter().y);
+            path2.lineTo(birthdayObject.getCenter().x, birthdayObject.getCenter().y);
+            canvas.drawPath(path2,
+                    ACStatus.head_dash_dot ? headDotObject.getBlueLinePaint() : headDotObject.getGreyLinePaint());
+            canvas.drawCircle(headDotObject.getCenter().x, headDotObject.getCenter().y,
+                    headDotObject.getRadius_dot(),
+                    ACStatus.head_dash_dot ? headDotObject.getBlueDotPaint() : headDotObject.getGreyDotPaint());
+            canvas.drawCircle(headDotObject.getCenter().x, headDotObject.getCenter().y,
+                    headDotObject.getRadius_dot_core(), headDotObject.getDotWhitePaint());
+        }
+
+        if(headChangeObject.isDraw()){
+            Path path = new Path();
+            path.moveTo(headIconObject.getCenter().x, headIconObject.getCenter().y);
+            path.lineTo(headChangeObject.getCenter().x, headChangeObject.getCenter().y);
+            canvas.drawPath(path,
+                    ACStatus.head_dash_change ? headDotObject.getBlueLinePaint() : headDotObject.getGreyLinePaint());
         }
 
         /**
@@ -396,6 +423,13 @@ public class AccountConfigurationView extends View{
             canvas.drawBitmap(bitmap, null,
                     ACUtils.getBitmapRect(headSkipObject.getCenter(), headSkipObject.getRadius()), null);
         }
+        if(headChangeObject.isDraw()){
+            Bitmap bitmap = BitmapFactory.decodeResource(getResources(),
+                    ACStatus.head_dash_change ? R.mipmap.ac_normal_bg : R.mipmap.ac_bg_grey);
+            canvas.drawBitmap(bitmap , null ,
+                    ACUtils.getBitmapRect(headChangeObject.getCenter() , headChangeObject.getRadius_small()) , null);
+            canvas.drawText(headChangeObject.getText(), headChangeObject.getCenter().x, headChangeObject.getCenter().y, headChangeObject.getTextPaint());
+        }
 
     }
 
@@ -468,6 +502,10 @@ public class AccountConfigurationView extends View{
                     ACStatus.head_dash_camera = false;
                     ACStatus.head_dash_album = false;
                 }
+                ACStatus.head_dash_next = (ACStatus.head_dash_camera || ACStatus.head_dash_album || ACStatus.head_dash_skip)
+                        && ACUtils.withPointRadius(x, y, birthdayObject.getCenter() , birthdayObject.getRadius());
+
+
                 break;
             case MotionEvent.ACTION_UP:
                 if(ACStatus.welcome1
@@ -495,6 +533,15 @@ public class AccountConfigurationView extends View{
                     ACStatus.head_dash_always = true;
                     ACStatus.head_dash_object = false;
                     touchFeedback.onClickHeadNext();
+                    if(ACStatus.head_dash_camera){
+                        touchFeedback.onClickHeadCamera();
+                    }
+                    if(ACStatus.head_dash_album){
+                        touchFeedback.onClickHeadAlbum();
+                    }
+                    if(ACStatus.head_dash_skip){
+                        touchFeedback.onClickHeadSkip();
+                    }
                 }else{
                     ACStatus.head_dash_object = false;
                     ACStatus.head_dash_camera = false;

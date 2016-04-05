@@ -16,6 +16,8 @@ import android.view.View;
 
 import com.wanghuan.accountconfiguration.R;
 import com.wanghuan.accountconfiguration.util.ACUtils;
+import com.wanghuan.accountconfiguration.util.BitmapUtil;
+import com.wanghuan.accountconfiguration.util.TextUtils;
 import com.wanghuan.accountconfiguration.util.ViewUtils;
 import com.wanghuan.accountconfiguration.view.objectviews.BirthdayObject;
 import com.wanghuan.accountconfiguration.view.objectviews.EnterNumber;
@@ -142,6 +144,15 @@ public class AccountConfigurationView extends View{
         ACStatus.draw_sex_quad_head_icon = true;
     }
 
+    public void drawHeadQuadToBirthday(){
+        headCameraObject.setIsDraw(false);
+        headAlbumObject.setIsDraw(false);
+        headSkipObject.setIsDraw(false);
+        headDotObject.setIsDraw(false);
+        headChangeObject.setIsDraw(false);
+        ACStatus.draw_head_quad_birthday = true;
+    }
+
     public void welcomeExitSexEnter(){
         enterNumber.drawExit(this);
         sexObject.drawMove(this);
@@ -174,6 +185,17 @@ public class AccountConfigurationView extends View{
     }
 
     public void HeadCameraAlbumSkipEnter(){
+        ACStatus.head_showing_change = false;
+        ACStatus.head_showing_choose = true;
+
+        ACStatus.head_dash_dot = false;
+        ACStatus.head_dash_change = false;
+        ACStatus.head_dash_next = false;
+
+        headDotObject.setIsDraw(false);
+        headChangeObject.setIsDraw(false);
+
+        headIconObject.setShowIcon(false);
         headCameraObject.setIsDraw(true);
         headAlbumObject.setIsDraw(true);
         headSkipObject.setIsDraw(true);
@@ -182,12 +204,54 @@ public class AccountConfigurationView extends View{
         headSkipObject.drawEnter(this);
     }
 
-    public void HeadDotChangeEnter(){
+    public void HeadDotChangeEnter(String path){
+        ACStatus.head_showing_choose = false;
+        ACStatus.head_showing_change = true;
+
+        ACStatus.head_dash_camera = false;
+        ACStatus.head_dash_album = false;
+        ACStatus.head_dash_skip = false;
+        ACStatus.head_dash_next = false;
+
+        headCameraObject.setIsDraw(false);
+        headAlbumObject.setIsDraw(false);
+        headSkipObject.setIsDraw(false);
+
         headDotObject.setIsDraw(true);
         headDotObject.drawEnter(this);
         headChangeObject.setIsDraw(true);
         headChangeObject.setText("更改");
         headChangeObject.drawEnter(this);
+
+        if(!TextUtils.isEmpty(path)){
+            headIconObject.setShowIcon(true);
+            headIconObject.setPath(path);
+        }
+    }
+
+    public void headDotMove(){
+        if(ACStatus.head_showing_choose){
+            headCameraObject.setIsDraw(true);
+            headAlbumObject.setIsDraw(true);
+            headSkipObject.setIsDraw(true);
+            headCameraObject.drawMove(this);
+            headAlbumObject.drawMove(this);
+            headSkipObject.drawMove(this);
+        }
+        if(ACStatus.head_showing_change){
+            headDotObject.setIsDraw(true);
+            headChangeObject.setIsDraw(true);
+            headDotObject.drawMove(this);
+            headChangeObject.drawMove(this);
+        }
+    }
+
+    public void headExitBirthdayEnter(){
+        headIconObject.setIsDraw(true);
+        headIconObject.drawExit(this);
+        birthdayObject.setIsDraw(true);
+        birthdayObject.setText("生日");
+        birthdayObject.drawMove(this);
 
     }
 
@@ -198,7 +262,6 @@ public class AccountConfigurationView extends View{
         /**
          *  draw Lines
          */
-
         if(welcomeDotObject.isDraw()){
             Path path = new Path();
             path.moveTo(enterNumber.getCenter().x , enterNumber.getCenter().y);
@@ -320,7 +383,7 @@ public class AccountConfigurationView extends View{
             canvas.drawLine(sexObject.getCenter().x, sexObject.getCenter().y,
                     x, y, MOVE_LINE_PAINT);
         }
-        if(ACStatus.head_showing && ACStatus.head_dash_object){
+        if((ACStatus.head_showing_choose || ACStatus.head_showing_change) && ACStatus.head_dash_object){
             canvas.drawLine(headIconObject.getCenter().x, headIconObject.getCenter().y,
                     x, y, MOVE_LINE_PAINT);
         }
@@ -380,7 +443,14 @@ public class AccountConfigurationView extends View{
                     ACStatus.sex_dash_next || ACStatus.sex_dash_always ? R.mipmap.ac_normal_bg : R.mipmap.ac_bg_grey);
             canvas.drawBitmap(bitmap , null ,
                     ACUtils.getBitmapRect(headIconObject.getCenter() , headIconObject.getRadius()) , null);
-            canvas.drawText(headIconObject.getText(), headIconObject.getCenter().x, headIconObject.getCenter().y, headIconObject.getTextPaint());
+            if(!headIconObject.isShowIcon()){
+                canvas.drawText(headIconObject.getText(), headIconObject.getCenter().x, headIconObject.getCenter().y, headIconObject.getTextPaint());
+            }else{
+                Bitmap headBitmap = BitmapUtil.createCircleImage(
+                        headIconObject.getPath() , (int)headIconObject.getRadius() - 20);
+                canvas.drawBitmap(headBitmap, null,
+                        ACUtils.getBitmapRect(headIconObject.getCenter(), headIconObject.getRadius() - 20), null);
+            }
         }
 
         if(sexBoyObject.isDraw()){
@@ -450,7 +520,7 @@ public class AccountConfigurationView extends View{
                     ACStatus.sex_dash_object = true;
                 }
                 //head icon
-                if(ACStatus.head_showing
+                if((ACStatus.head_showing_choose || ACStatus.head_showing_change)
                         && ACUtils.withPointRadius(x, y, headIconObject.getCenter() , headIconObject.getRadius())){
                     ACStatus.head_dash_object = true;
                 }
@@ -481,28 +551,43 @@ public class AccountConfigurationView extends View{
                         && ACUtils.withPointRadius(x, y, headIconObject.getCenter() , headIconObject.getRadius());
 
                 //head icon
-                if(ACStatus.head_showing == true
+                if(ACStatus.head_showing_choose
                         && ACStatus.head_dash_object
                         && ACUtils.withPointRadius(x, y, headCameraObject.getCenter() , headCameraObject.getRadius())){
                     ACStatus.head_dash_camera = true;
                     ACStatus.head_dash_album = false;
                     ACStatus.head_dash_skip = false;
                 }
-                if(ACStatus.head_showing == true
+                if(ACStatus.head_showing_choose
                         && ACStatus.head_dash_object
                         && ACUtils.withPointRadius(x, y, headAlbumObject.getCenter() , headAlbumObject.getRadius())){
                     ACStatus.head_dash_album = true;
                     ACStatus.head_dash_camera = false;
                     ACStatus.head_dash_skip = false;
                 }
-                if(ACStatus.head_showing == true
+                if(ACStatus.head_showing_choose
                         && ACStatus.head_dash_object
                         && ACUtils.withPointRadius(x, y, headSkipObject.getCenter() , headSkipObject.getRadius())){
                     ACStatus.head_dash_skip = true;
                     ACStatus.head_dash_camera = false;
                     ACStatus.head_dash_album = false;
                 }
-                ACStatus.head_dash_next = (ACStatus.head_dash_camera || ACStatus.head_dash_album || ACStatus.head_dash_skip)
+                if(ACStatus.head_showing_change
+                        && ACStatus.head_dash_object
+                        && ACUtils.withPointRadius(x , y , headDotObject.getCenter() , headDotObject.getRadius_dot_action())){
+                    ACStatus.head_dash_dot = true;
+                    ACStatus.head_dash_change = false;
+                }
+                if(ACStatus.head_showing_change
+                        && ACStatus.head_dash_object
+                        && ACUtils.withPointRadius(x , y , headChangeObject.getCenter() , headChangeObject.getRadius())){
+                    ACStatus.head_dash_change = true;
+                    ACStatus.head_dash_dot = false;
+                }else{
+                    ACStatus.head_dash_change = false;
+                }
+                ACStatus.head_dash_next =
+                        (ACStatus.head_dash_camera || ACStatus.head_dash_album || ACStatus.head_dash_skip || ACStatus.head_dash_dot)
                         && ACUtils.withPointRadius(x, y, birthdayObject.getCenter() , birthdayObject.getRadius());
 
 
@@ -529,10 +614,8 @@ public class AccountConfigurationView extends View{
                     ACStatus.sex_dash_next = false;
                 }
 
-                if(ACStatus.head_showing && ACStatus.head_dash_next && touchFeedback!= null){
-                    ACStatus.head_dash_always = true;
+                if(ACStatus.head_showing_choose && ACStatus.head_dash_next && touchFeedback != null){
                     ACStatus.head_dash_object = false;
-                    touchFeedback.onClickHeadNext();
                     if(ACStatus.head_dash_camera){
                         touchFeedback.onClickHeadCamera();
                     }
@@ -542,12 +625,23 @@ public class AccountConfigurationView extends View{
                     if(ACStatus.head_dash_skip){
                         touchFeedback.onClickHeadSkip();
                     }
+                }else if(ACStatus.head_showing_change && ACStatus.head_dash_next && touchFeedback != null){
+                    ACStatus.head_dash_always = true;
+                    ACStatus.head_dash_object = false;
+                    touchFeedback.onClickHeadNext();
+                }else if(ACStatus.head_showing_change && ACStatus.head_dash_change && touchFeedback != null){
+                    ACStatus.head_dash_always = true;
+                    ACStatus.head_dash_object = false;
+                    touchFeedback.onClickHeadChange();
                 }else{
+                    ACStatus.head_dash_always = false;
                     ACStatus.head_dash_object = false;
                     ACStatus.head_dash_camera = false;
                     ACStatus.head_dash_album = false;
                     ACStatus.head_dash_skip = false;
                     ACStatus.head_dash_next = false;
+                    ACStatus.head_dash_dot = false;
+                    ACStatus.head_dash_change = false;
                 }
 
                 ACStatus.welcome_dash_number = false;

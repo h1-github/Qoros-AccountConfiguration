@@ -55,7 +55,7 @@ public abstract class ObjectPointBase extends ObjectBase{
     public PointF welcome_point4 = new PointF(-measureWidth , measureHeight);
 
     public PointF sex_point1 = new PointF(measureWidth + SEX_DEFAULT_RADIUS , measureHeight/2);
-    public PointF sex_point2 = new PointF(measureWidth - SEX_DEFAULT_RADIUS * 0.6f, measureHeight/2);
+    public PointF sex_point2 = new PointF(measureWidth - SEX_DEFAULT_RADIUS * 0.6f, measureHeight * 0.5f);
     public PointF sex_point3 = new PointF(measureWidth * POINT_3_OFFSET , measureHeight/2 + measureHeight/4);
     public PointF sex_point4 = new PointF(-measureWidth , measureHeight);
 
@@ -65,7 +65,7 @@ public abstract class ObjectPointBase extends ObjectBase{
     public PointF welcome_dot_point4 = new PointF(-measureWidth , measureHeight);
 
     public PointF headIcon_point1 = new PointF(measureWidth + SEX_DEFAULT_RADIUS , measureHeight/2);
-    public PointF headIcon_point2 = new PointF(measureWidth - SEX_DEFAULT_RADIUS * 0.6f, measureHeight/2);
+    public PointF headIcon_point2 = new PointF(measureWidth - SEX_DEFAULT_RADIUS * 0.6f, measureHeight * 0.4f);
     public PointF headIcon_point3 = new PointF(measureWidth * POINT_3_OFFSET , measureHeight/2 + measureHeight/4);
     public PointF headIcon_point4 = new PointF(-measureWidth , measureHeight);
 

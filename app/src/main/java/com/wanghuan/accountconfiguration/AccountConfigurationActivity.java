@@ -5,14 +5,15 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.net.Uri;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
+import android.os.*;
+import android.os.Process;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -20,6 +21,8 @@ import android.widget.TextView;
 import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.wanghuan.accountconfiguration.util.DensityUtil;
+import com.wanghuan.accountconfiguration.util.L;
+import com.wanghuan.accountconfiguration.util.UriToPath;
 import com.wanghuan.accountconfiguration.util.ViewUtils;
 import com.wanghuan.accountconfiguration.view.AccountConfigurationView;
 import com.wanghuan.accountconfiguration.view.TouchFeedbackListener;
@@ -126,10 +129,34 @@ public class AccountConfigurationActivity extends Activity implements StepCallba
      * 裁剪图片
      * */
     public void toCatPicture(Intent mIntent,int code) {
+        String path = getResultUriToPath(code, mIntent);
+        L.d("toCatPicture path : " + path);
+        acView.HeadDotChangeEnter(path);
 //        Intent intent = new Intent(this, ActivityCutPhoto.class);
 //        intent.putExtra(ActivityCutPhoto.OUT_PATH, getResultUriToPath(code, mIntent));
 //        intent.putExtra(ActivityCutPhoto.OUT_SIZE, outSize);
 //        startActivityForResult(intent, CODE_CAT);
+    }
+
+    public String getResultUriToPath(int code,Intent mIntent){
+        String path = "";
+        if(code == CODE_CAMERA){
+            readPath();
+            path = createDataPath() ;
+        }else if(code == CODE_PHOTO_URI){
+            Uri uri = mIntent.getData();
+            path = UriToPath.getPath(this, uri);
+        }else if(code == CODE_PHOTO){
+            Uri uri = mIntent.getData();
+            Cursor c = this.getContentResolver().query(uri, new String[]{MediaStore.Images.Media.DATA}, null, null, null);
+            if (c != null) {
+                c.moveToFirst();
+                int columnIndex = c.getColumnIndex( MediaStore.Images.Media.DATA);
+                path = c.getString(columnIndex);
+            }
+        }
+
+        return path;
     }
 
     private void savePath() {
@@ -195,6 +222,8 @@ public class AccountConfigurationActivity extends Activity implements StepCallba
     private final static int WELCOME_TO_SEX = 1004;
     private final static int DRAW_SEX_QUAD_HEAD_ICON = 1005;
     private final static int SEX_TO_HEAD_ICON = 1006;
+    private final static int DRAW_HEAD_QUAD_BIRTHDAY = 1007;
+    private final static int HEAD_TO_BIRTHDAY = 1008;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -229,6 +258,12 @@ public class AccountConfigurationActivity extends Activity implements StepCallba
                     break;
                 case SEX_TO_HEAD_ICON:
                     sexExitHeadIconEnter();
+                    break;
+                case DRAW_HEAD_QUAD_BIRTHDAY:
+                    drawQuadLine(DRAW_HEAD_QUAD_BIRTHDAY);
+                    break;
+                case HEAD_TO_BIRTHDAY:
+                    headExitBirthdayEnter();
                     break;
             }
         }
@@ -325,12 +360,27 @@ public class AccountConfigurationActivity extends Activity implements StepCallba
         startTitleAnimation();
         startSubTitleAnimation();
         acView.sexExitHeadIconEnter();
-
     }
 
     @Override
-    public void headIcon() {
+    public void headExit() {
+        acView.headDotMove();
+        Message message = new Message();
+        message.what = DRAW_HEAD_QUAD_BIRTHDAY;
+        handler.sendMessageDelayed(message, 900);
+        Message message2 = new Message();
+        message2.what = HEAD_TO_BIRTHDAY;
+        handler.sendMessageDelayed(message2, 1800);
+    }
 
+    @Override
+    public void headExitBirthdayEnter() {
+        stepImage.setBackgroundResource(R.mipmap.welcome_step_4);
+        title.setText("生日");
+        subTitle.setText("来自观致汽车的\n神秘祝福礼物");
+        startTitleAnimation();
+        startSubTitleAnimation();
+        acView.headExitBirthdayEnter();
     }
 
     @Override
@@ -380,7 +430,7 @@ public class AccountConfigurationActivity extends Activity implements StepCallba
         @Override
         public void onClickHeadCamera() {
             super.onClickHeadCamera();
-            requestToCamera();
+//            requestToCamera();
         }
 
         @Override
@@ -392,8 +442,14 @@ public class AccountConfigurationActivity extends Activity implements StepCallba
         @Override
         public void onClickHeadSkip() {
             super.onClickHeadSkip();
+            headExit();
         }
 
+        @Override
+        public void onClickHeadChange() {
+            super.onClickHeadChange();
+            acView.HeadCameraAlbumSkipEnter();
+        }
     };
 
     private void drawQuadLine(int lineType){
@@ -404,6 +460,17 @@ public class AccountConfigurationActivity extends Activity implements StepCallba
             case DRAW_SEX_QUAD_HEAD_ICON:
                 acView.drawSexQuadToHeadIcon();
                 break;
+            case DRAW_HEAD_QUAD_BIRTHDAY:
+                acView.drawHeadQuadToBirthday();
+                break;
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_BACK){
+            android.os.Process.killProcess(Process.myPid());
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }

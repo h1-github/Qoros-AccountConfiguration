@@ -28,7 +28,8 @@ public class ACStatus {
     public static boolean sex_dash_always;
     public static boolean draw_sex_quad_head_icon;
 
-    public static boolean head_showing;
+    public static boolean head_showing_choose;
+    public static boolean head_showing_change;
     public static boolean head_dash_object;
     public static boolean head_dash_camera;
     public static boolean head_dash_album;

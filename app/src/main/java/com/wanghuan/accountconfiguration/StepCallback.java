@@ -17,7 +17,8 @@ public interface StepCallback {
     void sexExit();
     void sexExitHeadIconEnter();
 
-    void headIcon();
+    void headExit();
+    void headExitBirthdayEnter();
 
     void startTitleAnimation();
     void startSubTitleAnimation();

@@ -37,11 +37,6 @@ public abstract class AbstractStepCallback implements StepCallback{
     }
 
     @Override
-    public void headIcon() {
-
-    }
-
-    @Override
     public void startTitleAnimation() {
 
     }

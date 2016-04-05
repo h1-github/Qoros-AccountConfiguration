@@ -8,6 +8,7 @@ import android.graphics.PathEffect;
 import android.graphics.PointF;
 import android.view.View;
 
+import com.wanghuan.accountconfiguration.util.TextUtils;
 import com.wanghuan.accountconfiguration.util.ViewUtils;
 
 /**
@@ -41,6 +42,9 @@ public abstract class ObjectBase implements ObjectInterface{
     private int textColor = colorWhite;
 
     public String getText() {
+        if(TextUtils.isEmpty(text)){
+            return "";
+        }
         return text;
     }
 

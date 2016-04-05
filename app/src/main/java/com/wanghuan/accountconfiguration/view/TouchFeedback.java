@@ -17,4 +17,5 @@ public interface TouchFeedback {
     void onClickHeadSkip();
 
     void onClickHeadNext();
+    void onClickHeadChange();
 }

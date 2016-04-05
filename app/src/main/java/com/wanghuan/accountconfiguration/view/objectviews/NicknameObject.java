@@ -10,30 +10,10 @@ import com.wanghuan.accountconfiguration.view.ACStatus;
  * Created by h1 on 16/3/31 14:34.
  * email: h18501667737@gmail.com
  */
-public class HeadIconObject extends ObjectPointBase{
+public class NicknameObject extends ObjectPointBase{
 
-    public HeadIconObject(Context context) {
+    public NicknameObject(Context context) {
         super(context);
-    }
-
-    private String path;
-
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
-    }
-
-    private boolean showIcon;
-
-    public boolean isShowIcon() {
-        return showIcon;
-    }
-
-    public void setShowIcon(boolean showIcon) {
-        this.showIcon = showIcon;
     }
 
     @Override

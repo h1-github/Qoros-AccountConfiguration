@@ -21,7 +21,7 @@ public abstract class TouchFeedbackListener implements TouchFeedback{
     @Override
     public void onClickSexNext() {
         ACStatus.sex_showing = false;
-        ACStatus.head_showing = true;
+        ACStatus.head_showing_choose = true;
     }
 
     @Override
@@ -44,4 +44,8 @@ public abstract class TouchFeedbackListener implements TouchFeedback{
 
     }
 
+    @Override
+    public void onClickHeadChange() {
+
+    }
 }

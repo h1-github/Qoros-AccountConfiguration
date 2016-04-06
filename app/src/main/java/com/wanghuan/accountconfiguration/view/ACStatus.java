@@ -45,11 +45,20 @@ public class ACStatus {
     public static boolean birthday_dash_object;
     public static boolean birthday_dash_dot;
     public static boolean birthday_dash_next;
+    public static boolean birthday_dash_always;
     public static boolean draw_birthday_quad_nick;
 
     public static boolean nick_showing;
+    public static boolean nick_dash_object;
     public static boolean nick_dash_dot;
+    public static boolean nick_dash_always;
     public static boolean nick_dash_next;
-//    public static boolean draw_birthday_quad_nick;
+    public static boolean draw_nickname_quad_email;
 
+    public static boolean email_showing;
+    public static boolean email_dash_object;
+    public static boolean email_dash_dot;
+    public static boolean email_dash_always;
+    public static boolean email_dash_next;
+    public static boolean draw_email_quad_circle;
 }

@@ -65,4 +65,16 @@
             android:id="@+id/welcome_birthday_day"/>
     </LinearLayout>
 
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/welcome_step_input_bg9"
+        android:hint="昵称"
+        android:gravity="center_vertical"
+        android:paddingLeft="20dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:visibility="gone"
+        android:id="@+id/welcome_nickname_edit"/>
+
 </RelativeLayout>

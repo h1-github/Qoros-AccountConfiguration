@@ -17,11 +17,13 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.nineoldandroids.animation.Animator;
 import com.nineoldandroids.animation.AnimatorSet;
 import com.nineoldandroids.animation.ObjectAnimator;
 import com.wanghuan.accountconfiguration.util.DensityUtil;
@@ -232,7 +234,46 @@ public class AccountConfigurationActivity extends Activity implements StepCallba
     private final static int SEX_TO_HEAD_ICON = 1006;
     private final static int DRAW_HEAD_QUAD_BIRTHDAY = 1007;
     private final static int HEAD_TO_BIRTHDAY = 1008;
+    private final static int DRAW_BIRTHDAY_QUAD_NICKNAME = 1009;
+    private final static int BIRTHDAY_TO_NICKNAME = 1010;
 
+    private Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+                case ENTER_ICON_ANIMATION:
+                    enterHandler();
+                    break;
+                case WELCOME_ENTER_ANIMATION:
+                    welcomeEnter();
+                    break;
+                case DRAW_WELCOME_QUAD_SEX:
+                    drawQuadLine(DRAW_WELCOME_QUAD_SEX);
+                    break;
+                case WELCOME_TO_SEX:
+                    welcomeExitSexEnter();
+                    break;
+                case DRAW_SEX_QUAD_HEAD_ICON:
+                    drawQuadLine(DRAW_SEX_QUAD_HEAD_ICON);
+                    break;
+                case SEX_TO_HEAD_ICON:
+                    sexExitHeadIconEnter();
+                    break;
+                case DRAW_HEAD_QUAD_BIRTHDAY:
+                    drawQuadLine(DRAW_HEAD_QUAD_BIRTHDAY);
+                    break;
+                case HEAD_TO_BIRTHDAY:
+                    headExitBirthdayEnter();
+                    break;
+                case DRAW_BIRTHDAY_QUAD_NICKNAME:
+                    drawQuadLine(DRAW_BIRTHDAY_QUAD_NICKNAME);
+                    break;
+                case BIRTHDAY_TO_NICKNAME:
+                    birthdayExitNicknameEnter();
+                    break;
+            }
+        }
+    };
 
     @Bind(R.id.birthday_loopview_layout)
     LinearLayout birthdayLoopLayout;
@@ -242,6 +283,9 @@ public class AccountConfigurationActivity extends Activity implements StepCallba
     LoopView month;
     @Bind(R.id.welcome_birthday_day)
     LoopView day;
+
+    @Bind(R.id.welcome_nickname_edit)
+    EditText nicknameEditText;
 
     private int yearResult;
     private int monthResult;
@@ -258,6 +302,7 @@ public class AccountConfigurationActivity extends Activity implements StepCallba
         acView.setTouchFeedback(touchFeedbackListener);
         enter();
         initBirthdayLoopView();
+        initNicknameView();
     }
 
     private void initBirthdayLoopView(){
@@ -309,37 +354,17 @@ public class AccountConfigurationActivity extends Activity implements StepCallba
         day.setTextSize(20);
     }
 
-    private Handler handler = new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what){
-                case ENTER_ICON_ANIMATION:
-                    enterHandler();
-                    break;
-                case WELCOME_ENTER_ANIMATION:
-                    welcomeEnter();
-                    break;
-                case DRAW_WELCOME_QUAD_SEX:
-                    drawQuadLine(DRAW_WELCOME_QUAD_SEX);
-                    break;
-                case WELCOME_TO_SEX:
-                    welcomeExitSexEnter();
-                    break;
-                case DRAW_SEX_QUAD_HEAD_ICON:
-                    drawQuadLine(DRAW_SEX_QUAD_HEAD_ICON);
-                    break;
-                case SEX_TO_HEAD_ICON:
-                    sexExitHeadIconEnter();
-                    break;
-                case DRAW_HEAD_QUAD_BIRTHDAY:
-                    drawQuadLine(DRAW_HEAD_QUAD_BIRTHDAY);
-                    break;
-                case HEAD_TO_BIRTHDAY:
-                    headExitBirthdayEnter();
-                    break;
-            }
-        }
-    };
+    private void initNicknameView() {
+        ((RelativeLayout.LayoutParams) nicknameEditText.getLayoutParams()).setMargins(
+//                (int)(ViewUtils.getScreenWidth(this) * 0.3f) + ObjectPointBase.SEX_DEFAULT_RADIUS / 2,
+                DensityUtil.dp2px(this, 60),
+                (int)(ViewUtils.getScreenHeight(this) * 0.3f),
+                DensityUtil.dp2px(this, 60),
+                0
+        );
+    }
+
+
 
     @Override
     public void enter() {
@@ -347,7 +372,7 @@ public class AccountConfigurationActivity extends Activity implements StepCallba
         startTitleAnimation();
         Message message = new Message();
         message.what = ENTER_ICON_ANIMATION;
-        handler.sendMessageDelayed(message , 1500);
+        handler.sendMessageDelayed(message, 1500);
     }
 
     @Override
@@ -436,7 +461,7 @@ public class AccountConfigurationActivity extends Activity implements StepCallba
 
     @Override
     public void headExit() {
-        acView.headDotMove();
+        acView.headSkipDotMove();
         Message message = new Message();
         message.what = DRAW_HEAD_QUAD_BIRTHDAY;
         handler.sendMessageDelayed(message, 900);
@@ -453,8 +478,30 @@ public class AccountConfigurationActivity extends Activity implements StepCallba
         startTitleAnimation();
         startSubTitleAnimation();
         acView.headExitBirthdayEnter();
-
         showBirthdayLoopLayout();
+    }
+
+    @Override
+    public void birthdayExit() {
+        acView.birthdayDotMove();
+        Message message = new Message();
+        message.what = DRAW_BIRTHDAY_QUAD_NICKNAME;
+        handler.sendMessageDelayed(message, 900);
+        Message message2 = new Message();
+        message2.what = BIRTHDAY_TO_NICKNAME;
+        handler.sendMessageDelayed(message2, 1800);
+    }
+
+    @Override
+    public void birthdayExitNicknameEnter() {
+        stepImage.setBackgroundResource(R.mipmap.welcome_step_5);
+        title.setText("昵称");
+        subTitle.setText("观致还有可通过昵称\n与其他为好友及互动");
+        startTitleAnimation();
+        startSubTitleAnimation();
+        acView.birthdayExitNicknameEnter();
+        hiddenBirthdayLoopLayout();
+        showNicknameLayout();
     }
 
     private void showBirthdayLoopLayout(){
@@ -466,6 +513,79 @@ public class AccountConfigurationActivity extends Activity implements StepCallba
                 objectAnimator2);
         animatorSet.setDuration(1700);
         animatorSet.start();
+    }
+
+    private void hiddenBirthdayLoopLayout(){
+        ObjectAnimator objectAnimator1 = ObjectAnimator.ofFloat(birthdayLoopLayout , "alpha" , 1 , 0);
+        ObjectAnimator objectAnimator2 = ObjectAnimator.ofFloat(birthdayLoopLayout , "translationY" , 0 , 300);
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.playTogether(objectAnimator1,
+                objectAnimator2);
+        animatorSet.setDuration(1700);
+        animatorSet.start();
+        animatorSet.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                birthdayLoopLayout.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+    }
+
+    private void showNicknameLayout(){
+        nicknameEditText.setVisibility(View.VISIBLE);
+        ObjectAnimator objectAnimator1 = ObjectAnimator.ofFloat(nicknameEditText , "alpha" , 0 , 1);
+        ObjectAnimator objectAnimator2 = ObjectAnimator.ofFloat(nicknameEditText , "translationX" , 300 , 0);
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.playTogether(objectAnimator1,
+                objectAnimator2);
+        animatorSet.setDuration(1700);
+        animatorSet.start();
+    }
+
+    private void hiddenNicknameLayout(){
+        ObjectAnimator objectAnimator1 = ObjectAnimator.ofFloat(nicknameEditText , "alpha" , 1 , 0);
+        ObjectAnimator objectAnimator2 = ObjectAnimator.ofFloat(nicknameEditText , "translationX" , 0 , 300);
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.playTogether(objectAnimator1,
+                objectAnimator2);
+        animatorSet.setDuration(1700);
+        animatorSet.start();
+        animatorSet.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                nicknameEditText.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
     }
 
     @Override
@@ -539,6 +659,12 @@ public class AccountConfigurationActivity extends Activity implements StepCallba
         @Override
         public void onClickBirthdayNext() {
             super.onClickBirthdayNext();
+            birthdayExit();
+        }
+
+        @Override
+        public void onClickNicknameNext() {
+
         }
     };
 
@@ -552,6 +678,9 @@ public class AccountConfigurationActivity extends Activity implements StepCallba
                 break;
             case DRAW_HEAD_QUAD_BIRTHDAY:
                 acView.drawHeadQuadToBirthday();
+                break;
+            case DRAW_BIRTHDAY_QUAD_NICKNAME:
+                acView.drawBirthdayQuadToNickname();
                 break;
         }
     }

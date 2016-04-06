@@ -20,6 +20,9 @@ public interface StepCallback {
     void headExit();
     void headExitBirthdayEnter();
 
+    void birthdayExit();
+    void birthdayExitNicknameEnter();
+
     void startTitleAnimation();
     void startSubTitleAnimation();
 

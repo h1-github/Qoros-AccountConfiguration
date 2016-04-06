@@ -55,6 +55,7 @@ public abstract class TouchFeedbackListener implements TouchFeedback{
 
     @Override
     public void onClickBirthdayNext() {
-
+        ACStatus.birthday_showing = false;
+        ACStatus.nick_showing = true;
     }
 }

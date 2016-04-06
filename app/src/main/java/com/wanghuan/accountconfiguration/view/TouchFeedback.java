@@ -18,4 +18,6 @@ public interface TouchFeedback {
 
     void onClickHeadNext();
     void onClickHeadChange();
+
+    void onClickBirthdayNext();
 }

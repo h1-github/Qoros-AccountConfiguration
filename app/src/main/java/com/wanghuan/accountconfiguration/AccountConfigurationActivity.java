@@ -7,7 +7,9 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.*;
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.os.Process;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
@@ -16,6 +18,8 @@ import android.support.v4.content.ContextCompat;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.nineoldandroids.animation.AnimatorSet;
@@ -26,8 +30,12 @@ import com.wanghuan.accountconfiguration.util.UriToPath;
 import com.wanghuan.accountconfiguration.util.ViewUtils;
 import com.wanghuan.accountconfiguration.view.AccountConfigurationView;
 import com.wanghuan.accountconfiguration.view.TouchFeedbackListener;
+import com.wanghuan.accountconfiguration.view.objectviews.ObjectPointBase;
+import com.wanghuan.accountconfiguration.view.wheel.LoopView;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Calendar;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -225,6 +233,20 @@ public class AccountConfigurationActivity extends Activity implements StepCallba
     private final static int DRAW_HEAD_QUAD_BIRTHDAY = 1007;
     private final static int HEAD_TO_BIRTHDAY = 1008;
 
+
+    @Bind(R.id.birthday_loopview_layout)
+    LinearLayout birthdayLoopLayout;
+    @Bind(R.id.welcome_birthday_year)
+    LoopView year;
+    @Bind(R.id.welcome_birthday_month)
+    LoopView month;
+    @Bind(R.id.welcome_birthday_day)
+    LoopView day;
+
+    private int yearResult;
+    private int monthResult;
+    private int dayResult;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -235,6 +257,56 @@ public class AccountConfigurationActivity extends Activity implements StepCallba
 
         acView.setTouchFeedback(touchFeedbackListener);
         enter();
+        initBirthdayLoopView();
+    }
+
+    private void initBirthdayLoopView(){
+        ((RelativeLayout.LayoutParams)birthdayLoopLayout.getLayoutParams()).setMargins(
+                DensityUtil.dp2px(this , 60),
+                ViewUtils.getScreenHeight(this)/2 + ObjectPointBase.SEX_DEFAULT_RADIUS/2,
+                DensityUtil.dp2px(this , 60),
+                0
+        );
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        yearResult = calendar.get(Calendar.YEAR);
+        monthResult = calendar.get(Calendar.MONTH);
+        dayResult = calendar.get(Calendar.DAY_OF_MONTH);
+
+        //init
+        ArrayList<String> listYears = new ArrayList<>();
+        for (int i = 20; i <= 99; i++) {
+            listYears.add("19" + i + "年");
+        }
+        for (int i = 0; i <= 19; i++) {
+            if(i < 10){
+                listYears.add("200" + i + "年");
+            }else{
+                listYears.add("20" + i + "年");
+            }
+        }
+//        year.setListener(onYearItemSelectedListener);
+        year.setItems(listYears);
+        year.setInitPosition(listYears.size() - (2019 - yearResult) - 1);
+        year.setTextSize(20);
+
+        ArrayList<String> listMonths = new ArrayList<>();
+        for (int i = 1; i <= 12; i++) {
+            listMonths.add(i + "月");
+        }
+//        month.setListener(onMonthItemSelectedListener);
+        month.setItems(listMonths);
+        month.setInitPosition(monthResult);
+        month.setTextSize(20);
+
+        ArrayList<String> listDays = new ArrayList<>();
+        for (int i = 1; i <= 31; i++) {
+            listDays.add(i + "月");
+        }
+//        day.setListener(onDayItemSelectedListener);
+        day.setItems(listDays);
+        day.setInitPosition(dayResult - 1);
+        day.setTextSize(20);
     }
 
     private Handler handler = new Handler(){
@@ -381,6 +453,19 @@ public class AccountConfigurationActivity extends Activity implements StepCallba
         startTitleAnimation();
         startSubTitleAnimation();
         acView.headExitBirthdayEnter();
+
+        showBirthdayLoopLayout();
+    }
+
+    private void showBirthdayLoopLayout(){
+        birthdayLoopLayout.setVisibility(View.VISIBLE);
+        ObjectAnimator objectAnimator1 = ObjectAnimator.ofFloat(birthdayLoopLayout , "alpha" , 0 , 1);
+        ObjectAnimator objectAnimator2 = ObjectAnimator.ofFloat(birthdayLoopLayout , "translationY" , 300 , 0);
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.playTogether(objectAnimator1,
+                objectAnimator2);
+        animatorSet.setDuration(1700);
+        animatorSet.start();
     }
 
     @Override
@@ -449,6 +534,11 @@ public class AccountConfigurationActivity extends Activity implements StepCallba
         public void onClickHeadChange() {
             super.onClickHeadChange();
             acView.HeadCameraAlbumSkipEnter();
+        }
+
+        @Override
+        public void onClickBirthdayNext() {
+            super.onClickBirthdayNext();
         }
     };
 

@@ -41,6 +41,28 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/account_configuration_view"/>
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:id="@+id/birthday_loopview_layout"
+        android:visibility="gone"
+        android:background="@mipmap/welcome_step_date_mask">
+        <com.wanghuan.accountconfiguration.view.wheel.LoopView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/welcome_birthday_year"/>
+        <com.wanghuan.accountconfiguration.view.wheel.LoopView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/welcome_birthday_month"/>
+        <com.wanghuan.accountconfiguration.view.wheel.LoopView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/welcome_birthday_day"/>
+    </LinearLayout>
 
 </RelativeLayout>

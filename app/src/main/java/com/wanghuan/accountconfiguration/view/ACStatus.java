@@ -41,4 +41,15 @@ public class ACStatus {
     public static boolean head_dash_dot;
     public static boolean head_dash_change;
 
+    public static boolean birthday_showing;
+    public static boolean birthday_dash_object;
+    public static boolean birthday_dash_dot;
+    public static boolean birthday_dash_next;
+    public static boolean draw_birthday_quad_nick;
+
+    public static boolean nick_showing;
+    public static boolean nick_dash_dot;
+    public static boolean nick_dash_next;
+//    public static boolean draw_birthday_quad_nick;
+
 }

@@ -106,10 +106,23 @@ public abstract class ObjectPointBase extends ObjectBase{
 
     public PointF birthday_point1 = new PointF(measureWidth + SEX_DEFAULT_RADIUS , measureHeight/2);
     public PointF birthday_point2 = new PointF(measureWidth - SEX_DEFAULT_RADIUS * 0.6f, measureHeight * 0.3f);
-    public PointF birthday_point3 = new PointF(measureWidth * POINT_3_OFFSET , measureHeight/2 + measureHeight/4);
+    public PointF birthday_point3 = new PointF(measureWidth * POINT_3_OFFSET , measureHeight * 0.5f);
     public PointF birthday_point4 = new PointF(-measureWidth , measureHeight);
 
+    public PointF nickname_point1 = new PointF(measureWidth + SEX_DEFAULT_RADIUS , measureHeight/2);
+    public PointF nickname_point2 = new PointF(measureWidth - SEX_DEFAULT_RADIUS * 0.6f, measureHeight * 0.4f);
+    public PointF nickname_point3 = new PointF(measureWidth * POINT_3_OFFSET , measureHeight/2 + measureHeight/4);
+    public PointF nickname_point4 = new PointF(-measureWidth , measureHeight);
 
+    public PointF birthdayDot_point1 = new PointF(measureWidth + SEX_DEFAULT_RADIUS , measureHeight/2);
+    public PointF birthdayDot_point2 = new PointF(measureWidth * 0.55f, measureHeight * 0.4f);
+    public PointF birthdayDot_point3 = ACUtils.calculateMidPoint(birthday_point3 , nickname_point2);
+    public PointF birthdayDot_point4 = new PointF(-measureWidth , measureHeight);
+
+    public PointF nicknameDot_point1 = new PointF(measureWidth + SEX_DEFAULT_RADIUS , measureHeight/2);
+    public PointF nicknameDot_point2 = new PointF(measureWidth * 0.45f, measureHeight * 0.4f);
+    public PointF nicknameDot_point3 = ACUtils.calculateMidPoint(birthday_point3 , nickname_point2);
+    public PointF nicknameDot_point4 = new PointF(-measureWidth , measureHeight);
 
 
 }

@@ -10,9 +10,9 @@ import com.wanghuan.accountconfiguration.view.ACStatus;
  * Created by h1 on 16/3/31 14:34.
  * email: h18501667737@gmail.com
  */
-public class NicknameObject extends ObjectPointBase{
+public class NicknameDotObject extends ObjectPointBase{
 
-    public NicknameObject(Context context) {
+    public NicknameDotObject(Context context) {
         super(context);
     }
 
@@ -26,7 +26,7 @@ public class NicknameObject extends ObjectPointBase{
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 float value = (float) animation.getAnimatedValue();
-                center = calculate(nickname_point1, nickname_point2, value);
+                center = calculate(nicknameDot_point1, nicknameDot_point2, value);
                 view.postInvalidate();
                 ACStatus.animating = value != 1;
             }
@@ -43,7 +43,7 @@ public class NicknameObject extends ObjectPointBase{
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 float value = (float) animation.getAnimatedValue();
-                center = calculate(nickname_point2, nickname_point3, value);
+                center = calculate(nicknameDot_point2, nicknameDot_point3, value);
                 view.postInvalidate();
                 ACStatus.animating = value != 1;
             }
@@ -60,7 +60,7 @@ public class NicknameObject extends ObjectPointBase{
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
                 float value = (float) animation.getAnimatedValue();
-                center = calculate(nickname_point3, nickname_point4, value);
+                center = calculate(nicknameDot_point3, nicknameDot_point4, value);
                 view.postInvalidate();
                 ACStatus.animating = value != 1;
             }

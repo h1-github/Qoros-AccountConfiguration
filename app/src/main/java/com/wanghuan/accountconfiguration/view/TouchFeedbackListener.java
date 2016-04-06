@@ -26,7 +26,9 @@ public abstract class TouchFeedbackListener implements TouchFeedback{
 
     @Override
     public void onClickHeadNext() {
-
+        ACStatus.head_showing_choose = false;
+        ACStatus.head_showing_change = false;
+        ACStatus.birthday_showing = true;
     }
 
     @Override
@@ -41,11 +43,18 @@ public abstract class TouchFeedbackListener implements TouchFeedback{
 
     @Override
     public void onClickHeadSkip() {
-
+        ACStatus.head_showing_choose = false;
+        ACStatus.head_showing_change = false;
+        ACStatus.birthday_showing = true;
     }
 
     @Override
     public void onClickHeadChange() {
+
+    }
+
+    @Override
+    public void onClickBirthdayNext() {
 
     }
 }

@@ -23,6 +23,18 @@ public interface StepCallback {
     void birthdayExit();
     void birthdayExitNicknameEnter();
 
+    void nicknameExit();
+    void nicknameExitEmailEnter();
+
+    void emailExit();
+    void emailExitCircleEnter();
+
+    void circleExit();
+    void circleExitLastEnter();
+
+    void lastCompleted();
+    void lastCompletedThenNextEnter();
+
     void startTitleAnimation();
     void startSubTitleAnimation();
 

@@ -236,6 +236,14 @@ public class AccountConfigurationActivity extends Activity implements StepCallba
     private final static int HEAD_TO_BIRTHDAY = 1008;
     private final static int DRAW_BIRTHDAY_QUAD_NICKNAME = 1009;
     private final static int BIRTHDAY_TO_NICKNAME = 1010;
+    private final static int DRAW_NICKNAME_QUAD_EMAIL = 1011;
+    private final static int NICKNAME_TO_EMAIL = 1012;
+    private final static int DRAW_EMAIL_QUAD_CIRCLE = 1013;
+    private final static int EMAIL_TO_CIRCLE = 1014;
+    private final static int DRAW_CIRCLE_QUAD_LAST = 1015;
+    private final static int CIRCLE_TO_LAST = 1016;
+    private final static int DRAW_LAST_QUAD_COMPLETED = 1017;
+    private final static int LAST_COMPLETED = 1018;
 
     private Handler handler = new Handler(){
         @Override
@@ -271,6 +279,30 @@ public class AccountConfigurationActivity extends Activity implements StepCallba
                 case BIRTHDAY_TO_NICKNAME:
                     birthdayExitNicknameEnter();
                     break;
+                case DRAW_NICKNAME_QUAD_EMAIL:
+                    drawQuadLine(DRAW_NICKNAME_QUAD_EMAIL);
+                    break;
+                case NICKNAME_TO_EMAIL:
+                    nicknameExitEmailEnter();
+                    break;
+                case DRAW_EMAIL_QUAD_CIRCLE:
+                    drawQuadLine(DRAW_EMAIL_QUAD_CIRCLE);
+                    break;
+                case EMAIL_TO_CIRCLE:
+                    emailExitCircleEnter();
+                    break;
+                case DRAW_CIRCLE_QUAD_LAST:
+                    drawQuadLine(DRAW_CIRCLE_QUAD_LAST);
+                    break;
+                case CIRCLE_TO_LAST:
+                    circleExitLastEnter();
+                    break;
+                case DRAW_LAST_QUAD_COMPLETED:
+                    drawQuadLine(DRAW_LAST_QUAD_COMPLETED);
+                    break;
+                case LAST_COMPLETED:
+                    lastCompletedThenNextEnter();
+                    break;
             }
         }
     };
@@ -286,6 +318,8 @@ public class AccountConfigurationActivity extends Activity implements StepCallba
 
     @Bind(R.id.welcome_nickname_edit)
     EditText nicknameEditText;
+    @Bind(R.id.setting_doing)
+    ImageView settingDoing;
 
     private int yearResult;
     private int monthResult;
@@ -504,6 +538,103 @@ public class AccountConfigurationActivity extends Activity implements StepCallba
         showNicknameLayout();
     }
 
+    @Override
+    public void nicknameExit() {
+        acView.nicknameDotMove();
+        Message message = new Message();
+        message.what = DRAW_NICKNAME_QUAD_EMAIL;
+        handler.sendMessageDelayed(message, 900);
+        Message message2 = new Message();
+        message2.what = NICKNAME_TO_EMAIL;
+        handler.sendMessageDelayed(message2, 1800);
+    }
+
+    @Override
+    public void nicknameExitEmailEnter() {
+        stepImage.setBackgroundResource(R.mipmap.welcome_step_6);
+        title.setText("电子邮箱");
+        subTitle.setText("此电子邮箱用于安全目的\n确认你的身份或重设忘记的密码\n首次验证邮箱\n会发送至此电子邮箱");
+        startTitleAnimation();
+        startSubTitleAnimation();
+        acView.nicknameExitEmailEnter();
+        hiddenNicknameLayout();
+    }
+
+    @Override
+    public void emailExit() {
+        acView.emailDotMove();
+        Message message = new Message();
+        message.what = DRAW_EMAIL_QUAD_CIRCLE;
+        handler.sendMessageDelayed(message, 900);
+        Message message2 = new Message();
+        message2.what = EMAIL_TO_CIRCLE;
+        handler.sendMessageDelayed(message2, 1800);
+    }
+
+    @Override
+    public void emailExitCircleEnter() {
+        stepImage.setBackgroundResource(R.mipmap.welcome_step_7);
+        title.setText("车友圈");
+        subTitle.setText("一起分享观致驾驶乐趣\n与观致车友互动");
+        startTitleAnimation();
+        startSubTitleAnimation();
+        acView.emailExitCircleEnter();
+    }
+
+    @Override
+    public void circleExit() {
+        acView.circleDotMove();
+        Message message = new Message();
+        message.what = DRAW_CIRCLE_QUAD_LAST;
+        handler.sendMessageDelayed(message, 900);
+        Message message2 = new Message();
+        message2.what = CIRCLE_TO_LAST;
+        handler.sendMessageDelayed(message2, 1800);
+    }
+
+    @Override
+    public void circleExitLastEnter() {
+        stepImage.setBackgroundResource(R.mipmap.welcome_step_8);
+        title.setText("车友圈");
+        subTitle.setText("一起分享观致驾驶乐趣\n与观致车友互动");
+        startTitleAnimation();
+        startSubTitleAnimation();
+        acView.circleExitLastEnter();
+    }
+
+    @Override
+    public void lastCompleted() {
+        acView.lastDotMove();
+        Message message = new Message();
+        message.what = DRAW_LAST_QUAD_COMPLETED;
+        handler.sendMessageDelayed(message, 900);
+        Message message2 = new Message();
+        message2.what = LAST_COMPLETED;
+        handler.sendMessageDelayed(message2, 1800);
+    }
+
+    @Override
+    public void lastCompletedThenNextEnter() {
+        stepImage.setVisibility(View.INVISIBLE);
+        subTitle.setVisibility(View.GONE);
+        title.setText("设置中...");
+        startTitleAnimation();
+        acView.lastExitCompleted();
+        showSettingLayout();
+    }
+
+    private void showSettingLayout(){
+        settingDoing.setVisibility(View.VISIBLE);
+        settingDoing.setBackgroundResource(R.mipmap.welcome_step_9);
+        ObjectAnimator objectAnimator1 = ObjectAnimator.ofFloat(settingDoing , "alpha" , 0 , 1);
+        ObjectAnimator objectAnimator2 = ObjectAnimator.ofFloat(settingDoing , "translationY" , 300 , 0);
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.playTogether(objectAnimator1,
+                objectAnimator2);
+        animatorSet.setDuration(1700);
+        animatorSet.start();
+    }
+
     private void showBirthdayLoopLayout(){
         birthdayLoopLayout.setVisibility(View.VISIBLE);
         ObjectAnimator objectAnimator1 = ObjectAnimator.ofFloat(birthdayLoopLayout , "alpha" , 0 , 1);
@@ -664,7 +795,26 @@ public class AccountConfigurationActivity extends Activity implements StepCallba
 
         @Override
         public void onClickNicknameNext() {
+            super.onClickNicknameNext();
+            nicknameExit();
+        }
 
+        @Override
+        public void onClickEMailNext() {
+            super.onClickEMailNext();
+            emailExit();
+        }
+
+        @Override
+        public void onClickCircleNext() {
+            super.onClickCircleNext();
+            circleExit();
+        }
+
+        @Override
+        public void onClickCompleted() {
+            super.onClickCompleted();
+            lastCompleted();
         }
     };
 
@@ -681,6 +831,18 @@ public class AccountConfigurationActivity extends Activity implements StepCallba
                 break;
             case DRAW_BIRTHDAY_QUAD_NICKNAME:
                 acView.drawBirthdayQuadToNickname();
+                break;
+            case DRAW_NICKNAME_QUAD_EMAIL:
+                acView.drawNicknameQuadToEmail();
+                break;
+            case DRAW_EMAIL_QUAD_CIRCLE:
+                acView.drawEmailQuadToCircle();
+                break;
+            case DRAW_CIRCLE_QUAD_LAST:
+                acView.drawCircleQuadToLast();
+                break;
+            case DRAW_LAST_QUAD_COMPLETED:
+                acView.drawLastQuadToComplete();
                 break;
         }
     }

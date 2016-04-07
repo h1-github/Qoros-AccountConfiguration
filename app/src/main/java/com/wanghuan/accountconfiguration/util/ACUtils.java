@@ -33,9 +33,12 @@ public class ACUtils {
     public static final int QUAD_TYPE_LEFT_TOP = 1;
     public static final int QUAD_TYPE_LEFT_BOTTOM = 2;
     public static final int QUAD_TYPE_RIGHT_TOP = 3;
+    public static final int QUAD_TYPE_RIGHT_TOP_LAST = 32;
     public static final int QUAD_TYPE_RIGHT_BOTTOM = 4;
 
     public static final int QUAD_OFFSET = 50;
+    public static final int QUAD_OFFSET_RIGHT_TOP_LAST = 150;
+    public static final int QUAD_OFFSET_RIGHT_BOTTOM = 150;
 
     public static PointF calculateQuadPoint(PointF start , PointF end , int quadType){
         PointF quadPoint = new PointF();
@@ -44,13 +47,16 @@ public class ACUtils {
                 quadPoint.set((start.x + end.x)/2 - QUAD_OFFSET, (start.y + end.y)/2 - QUAD_OFFSET);
                 break;
             case QUAD_TYPE_LEFT_BOTTOM:
-                quadPoint.set((start.x + end.x)/2 , (start.y + end.y)/2);
+                quadPoint.set((start.x + end.x)/2 - QUAD_OFFSET , (start.y + end.y)/2 + QUAD_OFFSET);
                 break;
             case QUAD_TYPE_RIGHT_TOP:
-                quadPoint.set((start.x + end.x)/2 , (start.y + end.y)/2);
+                quadPoint.set((start.x + end.x)/2 + QUAD_OFFSET, (start.y + end.y)/2 - QUAD_OFFSET);
+                break;
+            case QUAD_TYPE_RIGHT_TOP_LAST:
+                quadPoint.set((start.x + end.x)/2 + QUAD_OFFSET_RIGHT_TOP_LAST, (start.y + end.y)/2 - QUAD_OFFSET_RIGHT_TOP_LAST);
                 break;
             case QUAD_TYPE_RIGHT_BOTTOM:
-                quadPoint.set((start.x + end.x)/2 , (start.y + end.y)/2);
+                quadPoint.set((start.x + end.x)/2 + QUAD_OFFSET_RIGHT_BOTTOM, (start.y + end.y)/2 + QUAD_OFFSET_RIGHT_BOTTOM);
                 break;
         }
         return quadPoint;

@@ -11,7 +11,9 @@ import com.wanghuan.accountconfiguration.util.ACUtils;
  */
 public abstract class ObjectPointBase extends ObjectBase{
 
+    private final static float POINT_3_OFFSET_02 = 0.2f;
     private final static float POINT_3_OFFSET = 0.3f;
+    private final static float POINT_3_OFFSET_2 = 0.4f;
 
     public ObjectPointBase(Context context) {
         super(context);
@@ -112,12 +114,27 @@ public abstract class ObjectPointBase extends ObjectBase{
     public PointF nickname_point1 = new PointF(measureWidth + SEX_DEFAULT_RADIUS , measureHeight/2);
     public PointF nickname_point2 = new PointF(measureWidth - SEX_DEFAULT_RADIUS * 0.6f, measureHeight * 0.4f);
     public PointF nickname_point3 = new PointF(measureWidth * POINT_3_OFFSET , measureHeight * 0.4f);
-    public PointF nickname_point4 = new PointF(-measureWidth , measureHeight);
+    public PointF nickname_point4 = new PointF(-measureWidth , 0);
 
     public PointF email_point1 = new PointF(measureWidth + SEX_DEFAULT_RADIUS , measureHeight/2);
     public PointF email_point2 = new PointF(measureWidth - SEX_DEFAULT_RADIUS * 0.6f, measureHeight * 0.6f);
-    public PointF email_point3 = new PointF(measureWidth * POINT_3_OFFSET , measureHeight/2 + measureHeight/4);
-    public PointF email_point4 = new PointF(-measureWidth , measureHeight);
+    public PointF email_point3 = new PointF(measureWidth * POINT_3_OFFSET_2 , measureHeight * 0.45f);
+    public PointF email_point4 = new PointF(-measureWidth , -measureHeight * 1.3f);
+
+    public PointF circle_point1 = new PointF(measureWidth + SEX_DEFAULT_RADIUS , measureHeight/2);
+    public PointF circle_point2 = new PointF(measureWidth - SEX_DEFAULT_RADIUS * 1.3f, measureHeight - SEX_DEFAULT_RADIUS * 0.7f);
+    public PointF circle_point3 = new PointF(measureWidth * POINT_3_OFFSET_02 , measureHeight * 0.35f);
+    public PointF circle_point4 = new PointF(0 , -measureHeight * 1.0f);
+
+    public PointF last_point1 = new PointF(measureWidth + SEX_DEFAULT_RADIUS , measureHeight/2);
+    public PointF last_point2 = new PointF(measureWidth - SEX_DEFAULT_RADIUS * 0.6f, measureHeight * 0.6f);
+    public PointF last_point3 = new PointF(measureWidth - SEX_DEFAULT_RADIUS * 0.7f , measureHeight * 0.35f);
+    public PointF last_point4 = new PointF(-measureWidth , -measureHeight);
+
+    public PointF complete_point1 = new PointF(measureWidth + SEX_DEFAULT_RADIUS , measureHeight/2);
+    public PointF complete_point2 = new PointF(measureWidth * 0.35f, measureHeight * 0.8f);
+    public PointF complete_point3 = new PointF(measureWidth * POINT_3_OFFSET_2 , measureHeight * 0.45f);
+    public PointF complete_point4 = new PointF(-measureWidth , -measureHeight);
 
     public PointF birthdayDot_point1 = new PointF(measureWidth + SEX_DEFAULT_RADIUS , measureHeight/2);
     public PointF birthdayDot_point2 = new PointF(measureWidth * 0.55f, measureHeight * 0.4f);
@@ -130,5 +147,19 @@ public abstract class ObjectPointBase extends ObjectBase{
     public PointF nicknameDot_point4 = new PointF(-measureWidth , measureHeight);
 
 
+    public PointF emailDot_point1 = new PointF(measureWidth + SEX_DEFAULT_RADIUS , measureHeight/2);
+    public PointF emailDot_point2 = new PointF(measureWidth * 0.6f, measureHeight * 0.60f);
+    public PointF emailDot_point3 = ACUtils.calculateMidPoint(nickname_point3 , circle_point2);
+    public PointF emailDot_point4 = new PointF(-measureWidth , measureHeight);
+
+    public PointF circleDot_point1 = new PointF(measureWidth + SEX_DEFAULT_RADIUS , measureHeight/2);
+    public PointF circleDot_point2 = new PointF(measureWidth * 0.6f, measureHeight * 0.60f);
+    public PointF circleDot_point3 = ACUtils.calculateMidPoint(circle_point3 , last_point2);
+    public PointF circleDot_point4 = new PointF(-measureWidth , measureHeight);
+
+    public PointF lastDot_point1 = new PointF(measureWidth + SEX_DEFAULT_RADIUS , measureHeight/2);
+    public PointF lastDot_point2 = new PointF(measureWidth * 0.6f, measureHeight * 0.60f);
+    public PointF lastDot_point3 = ACUtils.calculateMidPoint(last_point3 , complete_point2);
+    public PointF lastDot_point4 = new PointF(-measureWidth , measureHeight);
 
 }

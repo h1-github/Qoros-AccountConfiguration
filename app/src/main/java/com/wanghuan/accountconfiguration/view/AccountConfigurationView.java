@@ -21,6 +21,10 @@ import com.wanghuan.accountconfiguration.util.TextUtils;
 import com.wanghuan.accountconfiguration.util.ViewUtils;
 import com.wanghuan.accountconfiguration.view.objectviews.BirthdayDotObject;
 import com.wanghuan.accountconfiguration.view.objectviews.BirthdayObject;
+import com.wanghuan.accountconfiguration.view.objectviews.CircleDotObject;
+import com.wanghuan.accountconfiguration.view.objectviews.CircleObject;
+import com.wanghuan.accountconfiguration.view.objectviews.CompleteObject;
+import com.wanghuan.accountconfiguration.view.objectviews.EmailDotObject;
 import com.wanghuan.accountconfiguration.view.objectviews.EmailObject;
 import com.wanghuan.accountconfiguration.view.objectviews.EnterNumber;
 import com.wanghuan.accountconfiguration.view.objectviews.HeadAlbumObject;
@@ -29,6 +33,8 @@ import com.wanghuan.accountconfiguration.view.objectviews.HeadChangeObject;
 import com.wanghuan.accountconfiguration.view.objectviews.HeadDotObject;
 import com.wanghuan.accountconfiguration.view.objectviews.HeadIconObject;
 import com.wanghuan.accountconfiguration.view.objectviews.HeadSkipObject;
+import com.wanghuan.accountconfiguration.view.objectviews.LastDotObject;
+import com.wanghuan.accountconfiguration.view.objectviews.LastObject;
 import com.wanghuan.accountconfiguration.view.objectviews.NicknameDotObject;
 import com.wanghuan.accountconfiguration.view.objectviews.NicknameObject;
 import com.wanghuan.accountconfiguration.view.objectviews.SexBoyObject;
@@ -75,6 +81,12 @@ public class AccountConfigurationView extends View{
     private NicknameObject nicknameObject;
     private NicknameDotObject nicknameDotObject;
     private EmailObject emailObject;
+    private EmailDotObject emailDotObject;
+    private CircleObject circleObject;
+    private CircleDotObject circleDotObject;
+    private LastObject lastObject;
+    private LastDotObject lastDotObject;
+    private CompleteObject completeObject;
 
 
     private void init(Context context) {
@@ -107,6 +119,12 @@ public class AccountConfigurationView extends View{
         nicknameDotObject = new NicknameDotObject(context);
         birthdayDotObject = new BirthdayDotObject(context);
         emailObject = new EmailObject(context);
+        emailDotObject = new EmailDotObject(context);
+        circleObject = new CircleObject(context);
+        circleDotObject = new CircleDotObject(context);
+        lastObject = new LastObject(context);
+        lastDotObject = new LastDotObject(context);
+        completeObject = new CompleteObject(context);
     }
 
     public void startEnterNumber(){
@@ -168,6 +186,26 @@ public class AccountConfigurationView extends View{
     public void drawBirthdayQuadToNickname(){
         birthdayDotObject.setIsDraw(false);
         ACStatus.draw_birthday_quad_nick = true;
+    }
+
+    public void drawNicknameQuadToEmail(){
+        nicknameDotObject.setIsDraw(false);
+        ACStatus.draw_nickname_quad_email = true;
+    }
+
+    public void drawEmailQuadToCircle(){
+        emailDotObject.setIsDraw(false);
+        ACStatus.draw_email_quad_circle = true;
+    }
+
+    public void drawCircleQuadToLast(){
+        circleDotObject.setIsDraw(false);
+        ACStatus.draw_circle_quad_last = true;
+    }
+
+    public void drawLastQuadToComplete(){
+        lastDotObject.setIsDraw(false);
+        ACStatus.draw_last_quad_completed = true;
     }
 
     public void welcomeExitSexEnter(){
@@ -293,6 +331,26 @@ public class AccountConfigurationView extends View{
         birthdayDotObject.drawMove(this);
     }
 
+    public void nicknameDotMove(){
+        nicknameDotObject.setIsDraw(true);
+        nicknameDotObject.drawMove(this);
+    }
+
+    public void emailDotMove(){
+        emailDotObject.setIsDraw(true);
+        emailDotObject.drawMove(this);
+    }
+
+    public void circleDotMove(){
+        circleDotObject.setIsDraw(true);
+        circleDotObject.drawMove(this);
+    }
+
+    public void lastDotMove(){
+        lastDotObject.setIsDraw(true);
+        lastDotObject.drawMove(this);
+    }
+
     public void birthdayExitNicknameEnter(){
         releaseHeadIcon();
         birthdayObject.setIsDraw(true);
@@ -306,7 +364,60 @@ public class AccountConfigurationView extends View{
         emailObject.setIsDraw(true);
         emailObject.setText("下一步");
         emailObject.drawEnter(this);
+    }
 
+    public void nicknameExitEmailEnter(){
+        releaseBirthday();
+        nicknameObject.setIsDraw(true);
+        nicknameObject.drawExit(this);
+        emailObject.setIsDraw(true);
+        emailObject.setText("电子邮箱");
+        emailObject.drawMove(this);
+        emailDotObject.setIsDraw(true);
+        emailDotObject.drawEnter(this);
+
+        circleObject.setIsDraw(true);
+        circleObject.setText("下一步");
+        circleObject.drawEnter(this);
+    }
+
+    public void emailExitCircleEnter(){
+        releaseNickname();
+        emailObject.setIsDraw(true);
+        emailObject.drawExit(this);
+        circleObject.setIsDraw(true);
+        circleObject.setText("车友圈");
+        circleObject.drawMove(this);
+        circleDotObject.setIsDraw(true);
+        circleDotObject.drawEnter(this);
+
+        lastObject.setIsDraw(true);
+        lastObject.setText("下一步");
+        lastObject.drawEnter(this);
+    }
+
+    public void circleExitLastEnter(){
+        releaseEmail();
+        circleObject.setIsDraw(true);
+        circleObject.drawExit(this);
+        lastObject.setIsDraw(true);
+        lastObject.setText("车友圈 排行榜");
+        lastObject.drawMove(this);
+        lastDotObject.setIsDraw(true);
+        lastDotObject.drawEnter(this);
+
+        completeObject.setIsDraw(true);
+        completeObject.setText("完成设置");
+        completeObject.drawEnter(this);
+    }
+
+    public void lastExitCompleted(){
+        releaseCircle();
+        lastObject.setIsDraw(true);
+        lastObject.drawExit(this);
+        completeObject.setIsDraw(true);
+        completeObject.setText("完成设置");
+        completeObject.drawMove(this);
     }
 
     @Override
@@ -461,6 +572,60 @@ public class AccountConfigurationView extends View{
                     nicknameDotObject.getRadius_dot_core(), nicknameDotObject.getDotWhitePaint());
         }
 
+        if(emailDotObject.isDraw()){
+            Path path = new Path();
+            path.moveTo(emailObject.getCenter().x , emailObject.getCenter().y);
+            path.lineTo(emailDotObject.getCenter().x, emailDotObject.getCenter().y);
+            canvas.drawPath(path,
+                    ACStatus.email_dash_dot ? emailDotObject.getBlueLinePaint() : emailDotObject.getGreyLinePaint());
+            Path path2 = new Path();
+            path2.moveTo(emailDotObject.getCenter().x, emailDotObject.getCenter().y);
+            path2.lineTo(circleObject.getCenter().x, circleObject.getCenter().y);
+            canvas.drawPath(path2,
+                    ACStatus.email_dash_next ? emailDotObject.getBlueLinePaint() : emailDotObject.getGreyLinePaint());
+            canvas.drawCircle(emailDotObject.getCenter().x, emailDotObject.getCenter().y,
+                    emailDotObject.getRadius_dot(),
+                    ACStatus.email_dash_dot ? emailDotObject.getBlueDotPaint() : emailDotObject.getGreyDotPaint());
+            canvas.drawCircle(emailDotObject.getCenter().x, emailDotObject.getCenter().y,
+                    emailDotObject.getRadius_dot_core(), emailDotObject.getDotWhitePaint());
+        }
+
+        if(circleDotObject.isDraw()){
+            Path path = new Path();
+            path.moveTo(circleObject.getCenter().x , circleObject.getCenter().y);
+            path.lineTo(circleDotObject.getCenter().x, circleDotObject.getCenter().y);
+            canvas.drawPath(path,
+                    ACStatus.circle_dash_dot ? circleDotObject.getBlueLinePaint() : circleDotObject.getGreyLinePaint());
+            Path path2 = new Path();
+            path2.moveTo(circleDotObject.getCenter().x, circleDotObject.getCenter().y);
+            path2.lineTo(lastObject.getCenter().x, lastObject.getCenter().y);
+            canvas.drawPath(path2,
+                    ACStatus.circle_dash_next ? circleDotObject.getBlueLinePaint() : circleDotObject.getGreyLinePaint());
+            canvas.drawCircle(circleDotObject.getCenter().x, circleDotObject.getCenter().y,
+                    circleDotObject.getRadius_dot(),
+                    ACStatus.circle_dash_dot ? circleDotObject.getBlueDotPaint() : circleDotObject.getGreyDotPaint());
+            canvas.drawCircle(circleDotObject.getCenter().x, circleDotObject.getCenter().y,
+                    circleDotObject.getRadius_dot_core(), circleDotObject.getDotWhitePaint());
+        }
+
+        if(lastDotObject.isDraw()){
+            Path path = new Path();
+            path.moveTo(lastObject.getCenter().x , lastObject.getCenter().y);
+            path.lineTo(lastDotObject.getCenter().x, lastDotObject.getCenter().y);
+            canvas.drawPath(path,
+                    ACStatus.last_dash_dot ? lastDotObject.getBlueLinePaint() : lastDotObject.getGreyLinePaint());
+            Path path2 = new Path();
+            path2.moveTo(lastDotObject.getCenter().x, lastDotObject.getCenter().y);
+            path2.lineTo(completeObject.getCenter().x, completeObject.getCenter().y);
+            canvas.drawPath(path2,
+                    ACStatus.last_dash_next ? lastDotObject.getBlueLinePaint() : lastDotObject.getGreyLinePaint());
+            canvas.drawCircle(lastDotObject.getCenter().x, lastDotObject.getCenter().y,
+                    lastDotObject.getRadius_dot(),
+                    ACStatus.last_dash_dot ? lastDotObject.getBlueDotPaint() : lastDotObject.getGreyDotPaint());
+            canvas.drawCircle(lastDotObject.getCenter().x, lastDotObject.getCenter().y,
+                    lastDotObject.getRadius_dot_core(), lastDotObject.getDotWhitePaint());
+        }
+
         /**
          * draw moving Lines
          */
@@ -483,6 +648,18 @@ public class AccountConfigurationView extends View{
         }
         if(ACStatus.nick_showing && ACStatus.nick_dash_object){
             canvas.drawLine(nicknameObject.getCenter().x, nicknameObject.getCenter().y,
+                    x, y, MOVE_LINE_PAINT);
+        }
+        if(ACStatus.email_showing && ACStatus.email_dash_object){
+            canvas.drawLine(emailObject.getCenter().x, emailObject.getCenter().y,
+                    x, y, MOVE_LINE_PAINT);
+        }
+        if(ACStatus.circle_showing && ACStatus.circle_dash_object){
+            canvas.drawLine(circleObject.getCenter().x, circleObject.getCenter().y,
+                    x, y, MOVE_LINE_PAINT);
+        }
+        if(ACStatus.last_showing && ACStatus.last_dash_object){
+            canvas.drawLine(lastObject.getCenter().x, lastObject.getCenter().y,
                     x, y, MOVE_LINE_PAINT);
         }
 
@@ -520,8 +697,29 @@ public class AccountConfigurationView extends View{
         if(ACStatus.draw_nickname_quad_email){
             Path path = new Path();
             path.moveTo(nicknameObject.getCenter().x, nicknameObject.getCenter().y);
-            PointF quadPoint = ACUtils.calculateQuadPoint(nicknameObject.getCenter(), emailObject.getCenter(), ACUtils.QUAD_TYPE_LEFT_TOP);
+            PointF quadPoint = ACUtils.calculateQuadPoint(nicknameObject.getCenter(), emailObject.getCenter(), ACUtils.QUAD_TYPE_RIGHT_TOP);
             path.quadTo(quadPoint.x, quadPoint.y, emailObject.getCenter().x, emailObject.getCenter().y);
+            canvas.drawPath(path, MOVE_QUAD_LINE_PAINT);
+        }
+        if(ACStatus.draw_email_quad_circle){
+            Path path = new Path();
+            path.moveTo(emailObject.getCenter().x, emailObject.getCenter().y);
+            PointF quadPoint = ACUtils.calculateQuadPoint(emailObject.getCenter(), circleObject.getCenter(), ACUtils.QUAD_TYPE_RIGHT_TOP);
+            path.quadTo(quadPoint.x, quadPoint.y, circleObject.getCenter().x, circleObject.getCenter().y);
+            canvas.drawPath(path, MOVE_QUAD_LINE_PAINT);
+        }
+        if(ACStatus.draw_circle_quad_last){
+            Path path = new Path();
+            path.moveTo(circleObject.getCenter().x, circleObject.getCenter().y);
+            PointF quadPoint = ACUtils.calculateQuadPoint(circleObject.getCenter(), lastObject.getCenter(), ACUtils.QUAD_TYPE_RIGHT_TOP_LAST);
+            path.quadTo(quadPoint.x, quadPoint.y, lastObject.getCenter().x, lastObject.getCenter().y);
+            canvas.drawPath(path, MOVE_QUAD_LINE_PAINT);
+        }
+        if(ACStatus.draw_last_quad_completed){
+            Path path = new Path();
+            path.moveTo(lastObject.getCenter().x, lastObject.getCenter().y);
+            PointF quadPoint = ACUtils.calculateQuadPoint(lastObject.getCenter(), completeObject.getCenter(), ACUtils.QUAD_TYPE_RIGHT_BOTTOM);
+            path.quadTo(quadPoint.x, quadPoint.y, completeObject.getCenter().x, completeObject.getCenter().y);
             canvas.drawPath(path, MOVE_QUAD_LINE_PAINT);
         }
 
@@ -632,6 +830,30 @@ public class AccountConfigurationView extends View{
                     ACUtils.getBitmapRect(emailObject.getCenter() , emailObject.getRadius()) , null);
             canvas.drawText(emailObject.getText(), emailObject.getCenter().x, emailObject.getCenter().y, emailObject.getTextPaint());
         }
+        if(circleObject.isDraw()){
+            Bitmap bitmap = BitmapFactory.decodeResource(getResources(),
+                    ACStatus.email_dash_next
+                            || ACStatus.email_dash_always? R.mipmap.ac_normal_bg : R.mipmap.ac_bg_grey);
+            canvas.drawBitmap(bitmap , null ,
+                    ACUtils.getBitmapRect(circleObject.getCenter() , circleObject.getRadius()) , null);
+            canvas.drawText(circleObject.getText(), circleObject.getCenter().x, circleObject.getCenter().y, circleObject.getTextPaint());
+        }
+        if(lastObject.isDraw()){
+            Bitmap bitmap = BitmapFactory.decodeResource(getResources(),
+                    ACStatus.circle_dash_next
+                            || ACStatus.circle_dash_always? R.mipmap.ac_normal_bg : R.mipmap.ac_bg_grey);
+            canvas.drawBitmap(bitmap , null ,
+                    ACUtils.getBitmapRect(lastObject.getCenter() , lastObject.getRadius()) , null);
+            canvas.drawText(lastObject.getText(), lastObject.getCenter().x, lastObject.getCenter().y, lastObject.getTextPaint());
+        }
+        if(completeObject.isDraw()){
+            Bitmap bitmap = BitmapFactory.decodeResource(getResources(),
+                    ACStatus.last_dash_next
+                            || ACStatus.last_dash_always? R.mipmap.ac_normal_bg : R.mipmap.ac_bg_grey);
+            canvas.drawBitmap(bitmap , null ,
+                    ACUtils.getBitmapRect(completeObject.getCenter() , completeObject.getRadius()) , null);
+            canvas.drawText(completeObject.getText(), completeObject.getCenter().x, completeObject.getCenter().y, completeObject.getTextPaint());
+        }
 
     }
 
@@ -665,6 +887,21 @@ public class AccountConfigurationView extends View{
                 if((ACStatus.nick_showing)
                         && ACUtils.withPointRadius(x, y, nicknameObject.getCenter() , nicknameObject.getRadius())){
                     ACStatus.nick_dash_object = true;
+                }
+                //email
+                if((ACStatus.email_showing)
+                        && ACUtils.withPointRadius(x, y, emailObject.getCenter() , emailObject.getRadius())){
+                    ACStatus.email_dash_object = true;
+                }
+                //circle
+                if((ACStatus.circle_showing)
+                        && ACUtils.withPointRadius(x, y, circleObject.getCenter() , circleObject.getRadius())){
+                    ACStatus.circle_dash_object = true;
+                }
+                //last
+                if((ACStatus.last_showing)
+                        && ACUtils.withPointRadius(x, y, lastObject.getCenter() , lastObject.getRadius())){
+                    ACStatus.last_dash_object = true;
                 }
                 break;
             case MotionEvent.ACTION_MOVE:
@@ -747,6 +984,30 @@ public class AccountConfigurationView extends View{
                 }
                 ACStatus.nick_dash_next = ACStatus.nick_dash_dot
                         && ACUtils.withPointRadius(x, y, emailObject.getCenter() , emailObject.getRadius());
+                //email
+                if(ACStatus.email_showing == true
+                        && ACStatus.email_dash_object
+                        && ACUtils.withPointRadius(x, y, emailDotObject.getCenter() , emailDotObject.getRadius_dot_action())){
+                    ACStatus.email_dash_dot = true;
+                }
+                ACStatus.email_dash_next = ACStatus.email_dash_dot
+                        && ACUtils.withPointRadius(x, y, circleObject.getCenter() , circleObject.getRadius());
+                //circle
+                if(ACStatus.circle_showing == true
+                        && ACStatus.circle_dash_object
+                        && ACUtils.withPointRadius(x, y, circleDotObject.getCenter() , circleDotObject.getRadius_dot_action())){
+                    ACStatus.circle_dash_dot = true;
+                }
+                ACStatus.circle_dash_next = ACStatus.circle_dash_dot
+                        && ACUtils.withPointRadius(x, y, lastObject.getCenter() , lastObject.getRadius());
+                //last
+                if(ACStatus.last_showing == true
+                        && ACStatus.last_dash_object
+                        && ACUtils.withPointRadius(x, y, lastDotObject.getCenter() , lastDotObject.getRadius_dot_action())){
+                    ACStatus.last_dash_dot = true;
+                }
+                ACStatus.last_dash_next = ACStatus.last_dash_dot
+                        && ACUtils.withPointRadius(x, y, completeObject.getCenter() , completeObject.getRadius());
                 break;
             case MotionEvent.ACTION_UP:
                 if(ACStatus.welcome1
@@ -812,7 +1073,7 @@ public class AccountConfigurationView extends View{
                     ACStatus.birthday_dash_object = false;
                     ACStatus.birthday_dash_dot = false;
                     ACStatus.birthday_dash_next = false;
-                    ACStatus.birthday_dash_always = false;
+//                    ACStatus.birthday_dash_always = false;
                 }
 
                 if(ACStatus.nick_showing && ACStatus.nick_dash_next && touchFeedback!= null){
@@ -823,10 +1084,41 @@ public class AccountConfigurationView extends View{
                     ACStatus.nick_dash_object = false;
                     ACStatus.nick_dash_dot = false;
                     ACStatus.nick_dash_next = false;
-                    ACStatus.nick_dash_always = false;
+//                    ACStatus.nick_dash_always = false;
                 }
 
+                if(ACStatus.email_showing && ACStatus.email_dash_next && touchFeedback!= null){
+                    ACStatus.email_dash_object = false;
+                    ACStatus.email_dash_always = true;
+                    touchFeedback.onClickEMailNext();
+                }else{
+                    ACStatus.email_dash_object = false;
+                    ACStatus.email_dash_dot = false;
+                    ACStatus.email_dash_next = false;
+//                    ACStatus.nick_dash_always = false;
+                }
 
+                if(ACStatus.circle_showing && ACStatus.circle_dash_next && touchFeedback!= null){
+                    ACStatus.circle_dash_object = false;
+                    ACStatus.circle_dash_always = true;
+                    touchFeedback.onClickCircleNext();
+                }else{
+                    ACStatus.circle_dash_object = false;
+                    ACStatus.circle_dash_dot = false;
+                    ACStatus.circle_dash_next = false;
+//                    ACStatus.nick_dash_always = false;
+                }
+
+                if(ACStatus.last_showing && ACStatus.last_dash_next && touchFeedback!= null){
+                    ACStatus.last_dash_object = false;
+                    ACStatus.last_dash_always = true;
+                    touchFeedback.onClickCompleted();
+                }else{
+                    ACStatus.last_dash_object = false;
+                    ACStatus.last_dash_dot = false;
+                    ACStatus.last_dash_next = false;
+//                    ACStatus.nick_dash_always = false;
+                }
 
 
 
@@ -885,5 +1177,27 @@ public class AccountConfigurationView extends View{
         ACStatus.draw_head_quad_birthday = false;
         birthdayObject.setIsDraw(false);
         birthdayDotObject.setIsDraw(false);
+    }
+
+    private void releaseNickname(){
+        ACStatus.draw_birthday_quad_nick = false;
+        nicknameObject.setIsDraw(false);
+        nicknameDotObject.setIsDraw(false);
+    }
+
+    private void releaseEmail(){
+        ACStatus.draw_nickname_quad_email = false;
+        emailObject.setIsDraw(false);
+        emailDotObject.setIsDraw(false);
+    }
+
+    private void releaseCircle(){
+        ACStatus.draw_email_quad_circle = false;
+        circleObject.setIsDraw(false);
+        circleDotObject.setIsDraw(false);
+    }
+
+    private void releaseALL(){
+
     }
 }

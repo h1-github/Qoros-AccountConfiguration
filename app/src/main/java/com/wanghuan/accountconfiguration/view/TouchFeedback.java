@@ -22,4 +22,10 @@ public interface TouchFeedback {
     void onClickBirthdayNext();
 
     void onClickNicknameNext();
+
+    void onClickEMailNext();
+
+    void onClickCircleNext();
+
+    void onClickCompleted();
 }

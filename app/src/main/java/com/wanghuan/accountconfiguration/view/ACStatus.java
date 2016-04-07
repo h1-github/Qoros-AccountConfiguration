@@ -61,4 +61,18 @@ public class ACStatus {
     public static boolean email_dash_always;
     public static boolean email_dash_next;
     public static boolean draw_email_quad_circle;
+
+    public static boolean circle_showing;
+    public static boolean circle_dash_object;
+    public static boolean circle_dash_dot;
+    public static boolean circle_dash_always;
+    public static boolean circle_dash_next;
+    public static boolean draw_circle_quad_last;
+
+    public static boolean last_showing;
+    public static boolean last_dash_object;
+    public static boolean last_dash_dot;
+    public static boolean last_dash_always;
+    public static boolean last_dash_next;
+    public static boolean draw_last_quad_completed;
 }

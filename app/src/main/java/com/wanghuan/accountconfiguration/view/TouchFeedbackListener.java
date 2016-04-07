@@ -58,4 +58,27 @@ public abstract class TouchFeedbackListener implements TouchFeedback{
         ACStatus.birthday_showing = false;
         ACStatus.nick_showing = true;
     }
+
+    @Override
+    public void onClickNicknameNext() {
+        ACStatus.nick_showing = false;
+        ACStatus.email_showing = true;
+    }
+
+    @Override
+    public void onClickEMailNext() {
+        ACStatus.email_showing = false;
+        ACStatus.circle_showing = true;
+    }
+
+    @Override
+    public void onClickCircleNext() {
+        ACStatus.circle_showing = false;
+        ACStatus.last_showing = true;
+    }
+
+    @Override
+    public void onClickCompleted() {
+
+    }
 }

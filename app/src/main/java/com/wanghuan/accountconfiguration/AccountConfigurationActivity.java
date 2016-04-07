@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -351,6 +352,7 @@ public class AccountConfigurationActivity extends Activity implements StepCallba
     }
     @OnClick(R.id.welcome_completed_goon)
     void welcome_completed_goon(){
+        title.setTextColor(Color.WHITE);
         completedBigImage.setVisibility(View.VISIBLE);
         completedInformation.setVisibility(View.GONE);
         completedOpen.setVisibility(View.GONE);
@@ -654,7 +656,7 @@ public class AccountConfigurationActivity extends Activity implements StepCallba
 
         Message message4 = new Message();
         message4.what = SHOW_COMPLETED_WELCOME;
-        handler.sendMessageDelayed(message4, 7800);
+        handler.sendMessageDelayed(message4, 9800);
     }
 
     @Override

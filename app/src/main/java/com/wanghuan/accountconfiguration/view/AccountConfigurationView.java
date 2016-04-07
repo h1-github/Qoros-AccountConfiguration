@@ -1197,7 +1197,29 @@ public class AccountConfigurationView extends View{
         circleDotObject.setIsDraw(false);
     }
 
-    private void releaseALL(){
-
+    public void releaseALL(){
+        enterNumber.setIsDraw(false);
+        sexObject.setIsDraw(false);
+        welcomeDotObject.setIsDraw(false);
+        headIconObject.setIsDraw(false);
+        sexBoyObject.setIsDraw(false);
+        sexGirlObject.setIsDraw(false);
+        birthdayObject.setIsDraw(false);
+        headCameraObject.setIsDraw(false);
+        headAlbumObject.setIsDraw(false);
+        headSkipObject.setIsDraw(false);
+        headDotObject.setIsDraw(false);
+        headChangeObject.setIsDraw(false);
+        nicknameObject.setIsDraw(false);
+        nicknameDotObject.setIsDraw(false);
+        birthdayDotObject.setIsDraw(false);
+        emailObject.setIsDraw(false);
+        emailDotObject.setIsDraw(false);
+        circleObject.setIsDraw(false);
+        circleDotObject.setIsDraw(false);
+        lastObject.setIsDraw(false);
+        lastDotObject.setIsDraw(false);
+        completeObject.setIsDraw(false);
+        ACStatus.falseAll();
     }
 }

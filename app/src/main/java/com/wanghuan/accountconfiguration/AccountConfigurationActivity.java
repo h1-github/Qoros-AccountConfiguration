@@ -10,13 +10,13 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.Process;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -41,6 +41,8 @@ import java.util.Calendar;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by h1 on 16/3/29 14:32.
@@ -244,6 +246,8 @@ public class AccountConfigurationActivity extends Activity implements StepCallba
     private final static int CIRCLE_TO_LAST = 1016;
     private final static int DRAW_LAST_QUAD_COMPLETED = 1017;
     private final static int LAST_COMPLETED = 1018;
+    private final static int SETTING_COMPLETED = 1019;
+    private final static int SHOW_COMPLETED_WELCOME = 1020;
 
     private Handler handler = new Handler(){
         @Override
@@ -303,6 +307,12 @@ public class AccountConfigurationActivity extends Activity implements StepCallba
                 case LAST_COMPLETED:
                     lastCompletedThenNextEnter();
                     break;
+                case SETTING_COMPLETED:
+                    settingCompleted();
+                    break;
+                case SHOW_COMPLETED_WELCOME:
+                    showCompletedWelcome();
+                    break;
             }
         }
     };
@@ -320,6 +330,32 @@ public class AccountConfigurationActivity extends Activity implements StepCallba
     EditText nicknameEditText;
     @Bind(R.id.setting_doing)
     ImageView settingDoing;
+
+    @Bind(R.id.completed_circle_image)
+    CircleImageView circleImageView;
+    @Bind(R.id.completed_information)
+    TextView completedInformation;
+    @Bind(R.id.welcome_completed_open)
+    Button completedOpen;
+    @Bind(R.id.welcome_completed_goon)
+    Button completedGoon;
+    @Bind(R.id.completed_dash_image)
+    ImageView completedDashImage;
+    @Bind(R.id.completed_big_image)
+    ImageView completedBigImage;
+
+    @OnClick(R.id.welcome_completed_open)
+    void welcome_completed_open(){
+        acView.releaseALL();
+        this.finish();
+    }
+    @OnClick(R.id.welcome_completed_goon)
+    void welcome_completed_goon(){
+        completedBigImage.setVisibility(View.VISIBLE);
+        completedInformation.setVisibility(View.GONE);
+        completedOpen.setVisibility(View.GONE);
+        completedGoon.setVisibility(View.GONE);
+    }
 
     private int yearResult;
     private int monthResult;
@@ -611,6 +647,14 @@ public class AccountConfigurationActivity extends Activity implements StepCallba
         Message message2 = new Message();
         message2.what = LAST_COMPLETED;
         handler.sendMessageDelayed(message2, 1800);
+
+        Message message3 = new Message();
+        message3.what = SETTING_COMPLETED;
+        handler.sendMessageDelayed(message3, 5800);
+
+        Message message4 = new Message();
+        message4.what = SHOW_COMPLETED_WELCOME;
+        handler.sendMessageDelayed(message4, 7800);
     }
 
     @Override
@@ -623,11 +667,71 @@ public class AccountConfigurationActivity extends Activity implements StepCallba
         showSettingLayout();
     }
 
+    public void settingCompleted(){
+        title.setText("恭喜你!\n你已经完成设置");
+        startTitleAnimation();
+        showSettingCompletedLayout();
+    }
+
+    public void showCompletedWelcome(){
+        title.setText("欢迎,白色风车!");
+        startTitleAnimation();
+        circleImageView.setImageResource(R.mipmap.ac_sex_girl_large);
+        completedInformation.setText("黎姿\n1988年11月23日\nlizibeautify@gmail.com");
+        showCompletedInformationLayout();
+    }
+
+    private void showCompletedInformationLayout(){
+        settingDoing.setVisibility(View.GONE);
+        completedDashImage.setVisibility(View.VISIBLE);
+        circleImageView.setVisibility(View.VISIBLE);
+        completedInformation.setVisibility(View.VISIBLE);
+        completedGoon.setVisibility(View.VISIBLE);
+        completedOpen.setVisibility(View.VISIBLE);
+
+        ObjectAnimator objectAnimator1 = ObjectAnimator.ofFloat(completedDashImage , "alpha" , 0 , 1);
+        ObjectAnimator objectAnimator2 = ObjectAnimator.ofFloat(completedDashImage , "translationY" , 130 , 0);
+        ObjectAnimator objectAnimator3 = ObjectAnimator.ofFloat(circleImageView , "alpha" , 0 , 1);
+        ObjectAnimator objectAnimator4 = ObjectAnimator.ofFloat(circleImageView , "translationY" , 130 , 0);
+        ObjectAnimator objectAnimator5 = ObjectAnimator.ofFloat(completedGoon , "alpha" , 0 , 1);
+        ObjectAnimator objectAnimator6 = ObjectAnimator.ofFloat(completedGoon , "translationY" , 30 , 0);
+        ObjectAnimator objectAnimator7 = ObjectAnimator.ofFloat(completedOpen , "alpha" , 0 , 1);
+        ObjectAnimator objectAnimator8 = ObjectAnimator.ofFloat(completedOpen , "translationY" , 30 , 0);
+        ObjectAnimator objectAnimator9 = ObjectAnimator.ofFloat(completedInformation , "alpha" , 0 , 1);
+        ObjectAnimator objectAnimator10 = ObjectAnimator.ofFloat(completedInformation , "translationY" , 30 , 0);
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.playTogether(objectAnimator1,
+                objectAnimator2,
+                objectAnimator3,
+                objectAnimator4,
+                objectAnimator5,
+                objectAnimator6,
+                objectAnimator7,
+                objectAnimator8,
+                objectAnimator9,
+                objectAnimator10
+                );
+        animatorSet.setDuration(1700);
+        animatorSet.start();
+    }
+
     private void showSettingLayout(){
         settingDoing.setVisibility(View.VISIBLE);
         settingDoing.setBackgroundResource(R.mipmap.welcome_step_9);
         ObjectAnimator objectAnimator1 = ObjectAnimator.ofFloat(settingDoing , "alpha" , 0 , 1);
         ObjectAnimator objectAnimator2 = ObjectAnimator.ofFloat(settingDoing , "translationY" , 300 , 0);
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.playTogether(objectAnimator1,
+                objectAnimator2);
+        animatorSet.setDuration(1700);
+        animatorSet.start();
+    }
+
+    private void showSettingCompletedLayout(){
+        settingDoing.setVisibility(View.VISIBLE);
+        settingDoing.setBackgroundResource(R.mipmap.welcome_step_over);
+        ObjectAnimator objectAnimator1 = ObjectAnimator.ofFloat(settingDoing , "alpha" , 0 , 1);
+        ObjectAnimator objectAnimator2 = ObjectAnimator.ofFloat(settingDoing , "translationY" , 30 , 0);
         AnimatorSet animatorSet = new AnimatorSet();
         animatorSet.playTogether(objectAnimator1,
                 objectAnimator2);
@@ -850,7 +954,7 @@ public class AccountConfigurationActivity extends Activity implements StepCallba
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if(event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_BACK){
-            android.os.Process.killProcess(Process.myPid());
+            acView.releaseALL();
         }
         return super.onKeyDown(keyCode, event);
     }

@@ -157,9 +157,29 @@ public abstract class ObjectPointBase extends ObjectBase{
     public PointF circleDot_point3 = ACUtils.calculateMidPoint(circle_point3 , last_point2);
     public PointF circleDot_point4 = new PointF(-measureWidth , measureHeight);
 
+    public PointF circleOpen_point1 = new PointF(measureWidth + SEX_DEFAULT_RADIUS , measureHeight/2);
+    public PointF circleOpen_point2 = new PointF(measureWidth * 0.6f, measureHeight * 0.40f);
+    public PointF circleOpen_point3 = ACUtils.calculateMidPoint(circle_point3 , last_point2);
+    public PointF circleOpen_point4 = new PointF(-measureWidth , measureHeight);
+
+    public PointF circleClose_point1 = new PointF(measureWidth + SEX_DEFAULT_RADIUS , measureHeight/2);
+    public PointF circleClose_point2 = new PointF(measureWidth * 0.5f, measureHeight * 0.60f);
+    public PointF circleClose_point3 = ACUtils.calculateMidPoint(circle_point3 , last_point2);
+    public PointF circleClose_point4 = new PointF(-measureWidth , measureHeight);
+
     public PointF lastDot_point1 = new PointF(measureWidth + SEX_DEFAULT_RADIUS , measureHeight/2);
     public PointF lastDot_point2 = new PointF(measureWidth * 0.6f, measureHeight * 0.60f);
     public PointF lastDot_point3 = ACUtils.calculateMidPoint(last_point3 , complete_point2);
     public PointF lastDot_point4 = new PointF(-measureWidth , measureHeight);
+
+    public PointF lastOpen_point1 = new PointF(measureWidth + SEX_DEFAULT_RADIUS , measureHeight/2);
+    public PointF lastOpen_point2 = new PointF(measureWidth * 0.7f, measureHeight * 0.70f);
+    public PointF lastOpen_point3 = ACUtils.calculateMidPoint(last_point3 , complete_point2);
+    public PointF lastOpen_point4 = new PointF(-measureWidth , measureHeight);
+
+    public PointF lastClose_point1 = new PointF(measureWidth + SEX_DEFAULT_RADIUS , measureHeight/2);
+    public PointF lastClose_point2 = new PointF(measureWidth * 0.5f, measureHeight * 0.50f);
+    public PointF lastClose_point3 = ACUtils.calculateMidPoint(last_point3 , complete_point2);
+    public PointF lastClose_point4 = new PointF(-measureWidth , measureHeight);
 
 }

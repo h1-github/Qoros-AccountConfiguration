@@ -65,6 +65,8 @@ public class ACStatus {
     public static boolean circle_showing;
     public static boolean circle_dash_object;
     public static boolean circle_dash_dot;
+    public static boolean circle_dash_open;
+    public static boolean circle_dash_close;
     public static boolean circle_dash_always;
     public static boolean circle_dash_next;
     public static boolean draw_circle_quad_last;
@@ -72,6 +74,8 @@ public class ACStatus {
     public static boolean last_showing;
     public static boolean last_dash_object;
     public static boolean last_dash_dot;
+    public static boolean last_dash_open;
+    public static boolean last_dash_close;
     public static boolean last_dash_always;
     public static boolean last_dash_next;
     public static boolean draw_last_quad_completed;
@@ -143,6 +147,8 @@ public class ACStatus {
         last_showing = false;
         last_dash_object = false;
         last_dash_dot = false;
+        last_dash_open = false;
+        last_dash_close = false;
         last_dash_always = false;
         last_dash_next = false;
         draw_last_quad_completed = false;

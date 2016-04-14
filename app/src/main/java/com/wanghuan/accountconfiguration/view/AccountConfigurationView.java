@@ -21,8 +21,10 @@ import com.wanghuan.accountconfiguration.util.TextUtils;
 import com.wanghuan.accountconfiguration.util.ViewUtils;
 import com.wanghuan.accountconfiguration.view.objectviews.BirthdayDotObject;
 import com.wanghuan.accountconfiguration.view.objectviews.BirthdayObject;
+import com.wanghuan.accountconfiguration.view.objectviews.CircleCloseObject;
 import com.wanghuan.accountconfiguration.view.objectviews.CircleDotObject;
 import com.wanghuan.accountconfiguration.view.objectviews.CircleObject;
+import com.wanghuan.accountconfiguration.view.objectviews.CircleOpenObject;
 import com.wanghuan.accountconfiguration.view.objectviews.CompleteObject;
 import com.wanghuan.accountconfiguration.view.objectviews.EmailDotObject;
 import com.wanghuan.accountconfiguration.view.objectviews.EmailObject;
@@ -33,8 +35,10 @@ import com.wanghuan.accountconfiguration.view.objectviews.HeadChangeObject;
 import com.wanghuan.accountconfiguration.view.objectviews.HeadDotObject;
 import com.wanghuan.accountconfiguration.view.objectviews.HeadIconObject;
 import com.wanghuan.accountconfiguration.view.objectviews.HeadSkipObject;
+import com.wanghuan.accountconfiguration.view.objectviews.LastCloseObject;
 import com.wanghuan.accountconfiguration.view.objectviews.LastDotObject;
 import com.wanghuan.accountconfiguration.view.objectviews.LastObject;
+import com.wanghuan.accountconfiguration.view.objectviews.LastOpenObject;
 import com.wanghuan.accountconfiguration.view.objectviews.NicknameDotObject;
 import com.wanghuan.accountconfiguration.view.objectviews.NicknameObject;
 import com.wanghuan.accountconfiguration.view.objectviews.SexBoyObject;
@@ -84,8 +88,12 @@ public class AccountConfigurationView extends View{
     private EmailDotObject emailDotObject;
     private CircleObject circleObject;
     private CircleDotObject circleDotObject;
+    private CircleOpenObject circleOpenObject;
+    private CircleCloseObject circleCloseObject;
     private LastObject lastObject;
     private LastDotObject lastDotObject;
+    private LastOpenObject lastOpenObject;
+    private LastCloseObject lastCloseObject;
     private CompleteObject completeObject;
 
 
@@ -122,8 +130,12 @@ public class AccountConfigurationView extends View{
         emailDotObject = new EmailDotObject(context);
         circleObject = new CircleObject(context);
         circleDotObject = new CircleDotObject(context);
+        circleOpenObject = new CircleOpenObject(context);
+        circleCloseObject = new CircleCloseObject(context);
         lastObject = new LastObject(context);
         lastDotObject = new LastDotObject(context);
+        lastOpenObject = new LastOpenObject(context);
+        lastCloseObject = new LastCloseObject(context);
         completeObject = new CompleteObject(context);
     }
 
@@ -200,11 +212,15 @@ public class AccountConfigurationView extends View{
 
     public void drawCircleQuadToLast(){
         circleDotObject.setIsDraw(false);
+        circleOpenObject.setIsDraw(false);
+        circleCloseObject.setIsDraw(false);
         ACStatus.draw_circle_quad_last = true;
     }
 
     public void drawLastQuadToComplete(){
         lastDotObject.setIsDraw(false);
+        lastOpenObject.setIsDraw(false);
+        lastCloseObject.setIsDraw(false);
         ACStatus.draw_last_quad_completed = true;
     }
 
@@ -342,13 +358,25 @@ public class AccountConfigurationView extends View{
     }
 
     public void circleDotMove(){
-        circleDotObject.setIsDraw(true);
-        circleDotObject.drawMove(this);
+//        circleDotObject.setIsDraw(true);
+//        circleDotObject.drawMove(this);
+
+        circleOpenObject.setText("参加");
+        circleCloseObject.setText("否");
+        circleOpenObject.setIsDraw(true);
+        circleOpenObject.drawMove(this);
+        circleCloseObject.setIsDraw(true);
+        circleCloseObject.drawMove(this);
     }
 
     public void lastDotMove(){
         lastDotObject.setIsDraw(true);
         lastDotObject.drawMove(this);
+
+        lastOpenObject.setIsDraw(true);
+        lastOpenObject.drawMove(this);
+        lastCloseObject.setIsDraw(true);
+        lastCloseObject.drawMove(this);
     }
 
     public void birthdayExitNicknameEnter(){
@@ -388,8 +416,14 @@ public class AccountConfigurationView extends View{
         circleObject.setIsDraw(true);
         circleObject.setText("车友圈");
         circleObject.drawMove(this);
-        circleDotObject.setIsDraw(true);
-        circleDotObject.drawEnter(this);
+//        circleDotObject.setIsDraw(true);
+//        circleDotObject.drawEnter(this);
+        circleOpenObject.setText("参加");
+        circleCloseObject.setText("否");
+        circleOpenObject.setIsDraw(true);
+        circleOpenObject.drawEnter(this);
+        circleCloseObject.setIsDraw(true);
+        circleCloseObject.drawEnter(this);
 
         lastObject.setIsDraw(true);
         lastObject.setText("下一步");
@@ -401,10 +435,17 @@ public class AccountConfigurationView extends View{
         circleObject.setIsDraw(true);
         circleObject.drawExit(this);
         lastObject.setIsDraw(true);
-        lastObject.setText("车友圈 排行榜");
+        lastObject.setText("监控范围");
         lastObject.drawMove(this);
         lastDotObject.setIsDraw(true);
         lastDotObject.drawEnter(this);
+
+        lastOpenObject.setText("开启");
+        lastCloseObject.setText("关闭");
+        lastOpenObject.setIsDraw(true);
+        lastOpenObject.drawEnter(this);
+        lastCloseObject.setIsDraw(true);
+        lastCloseObject.drawEnter(this);
 
         completeObject.setIsDraw(true);
         completeObject.setText("完成设置");
@@ -590,40 +631,114 @@ public class AccountConfigurationView extends View{
                     emailDotObject.getRadius_dot_core(), emailDotObject.getDotWhitePaint());
         }
 
-        if(circleDotObject.isDraw()){
+//        if(circleDotObject.isDraw()){
+//            Path path = new Path();
+//            path.moveTo(circleObject.getCenter().x , circleObject.getCenter().y);
+//            path.lineTo(circleDotObject.getCenter().x, circleDotObject.getCenter().y);
+//            canvas.drawPath(path,
+//                    ACStatus.circle_dash_dot ? circleDotObject.getBlueLinePaint() : circleDotObject.getGreyLinePaint());
+//            Path path2 = new Path();
+//            path2.moveTo(circleDotObject.getCenter().x, circleDotObject.getCenter().y);
+//            path2.lineTo(lastObject.getCenter().x, lastObject.getCenter().y);
+//            canvas.drawPath(path2,
+//                    ACStatus.circle_dash_next ? circleDotObject.getBlueLinePaint() : circleDotObject.getGreyLinePaint());
+//            canvas.drawCircle(circleDotObject.getCenter().x, circleDotObject.getCenter().y,
+//                    circleDotObject.getRadius_dot(),
+//                    ACStatus.circle_dash_dot ? circleDotObject.getBlueDotPaint() : circleDotObject.getGreyDotPaint());
+//            canvas.drawCircle(circleDotObject.getCenter().x, circleDotObject.getCenter().y,
+//                    circleDotObject.getRadius_dot_core(), circleDotObject.getDotWhitePaint());
+//        }
+
+        if(circleOpenObject.isDraw()){
             Path path = new Path();
             path.moveTo(circleObject.getCenter().x , circleObject.getCenter().y);
-            path.lineTo(circleDotObject.getCenter().x, circleDotObject.getCenter().y);
+            path.lineTo(circleOpenObject.getCenter().x, circleOpenObject.getCenter().y);
             canvas.drawPath(path,
-                    ACStatus.circle_dash_dot ? circleDotObject.getBlueLinePaint() : circleDotObject.getGreyLinePaint());
+                    ACStatus.circle_dash_open ? circleOpenObject.getBlueLinePaint() : circleOpenObject.getGreyLinePaint());
             Path path2 = new Path();
-            path2.moveTo(circleDotObject.getCenter().x, circleDotObject.getCenter().y);
+            path2.moveTo(circleOpenObject.getCenter().x, circleOpenObject.getCenter().y);
             path2.lineTo(lastObject.getCenter().x, lastObject.getCenter().y);
             canvas.drawPath(path2,
-                    ACStatus.circle_dash_next ? circleDotObject.getBlueLinePaint() : circleDotObject.getGreyLinePaint());
-            canvas.drawCircle(circleDotObject.getCenter().x, circleDotObject.getCenter().y,
-                    circleDotObject.getRadius_dot(),
-                    ACStatus.circle_dash_dot ? circleDotObject.getBlueDotPaint() : circleDotObject.getGreyDotPaint());
-            canvas.drawCircle(circleDotObject.getCenter().x, circleDotObject.getCenter().y,
-                    circleDotObject.getRadius_dot_core(), circleDotObject.getDotWhitePaint());
+                    (ACStatus.circle_dash_open & ACStatus.circle_dash_next)
+                            ? circleOpenObject.getBlueLinePaint() : circleOpenObject.getGreyLinePaint());
+            canvas.drawCircle(circleOpenObject.getCenter().x, circleOpenObject.getCenter().y,
+                    circleOpenObject.getRadius_small(),
+                    ACStatus.circle_dash_open ? circleOpenObject.getBlueDotPaint() : circleOpenObject.getGreyDotPaint());
+            canvas.drawText(circleOpenObject.getText() , circleOpenObject.getCenter().x, circleOpenObject.getCenter().y,
+                    circleOpenObject.getTextPaint());
         }
 
-        if(lastDotObject.isDraw()){
+        if(circleCloseObject.isDraw()){
+            Path path = new Path();
+            path.moveTo(circleObject.getCenter().x , circleObject.getCenter().y);
+            path.lineTo(circleCloseObject.getCenter().x, circleCloseObject.getCenter().y);
+            canvas.drawPath(path,
+                    ACStatus.circle_dash_close ? circleCloseObject.getBlueLinePaint() : circleCloseObject.getGreyLinePaint());
+            Path path2 = new Path();
+            path2.moveTo(circleCloseObject.getCenter().x, circleCloseObject.getCenter().y);
+            path2.lineTo(lastObject.getCenter().x, lastObject.getCenter().y);
+            canvas.drawPath(path2,
+                    (ACStatus.circle_dash_close && ACStatus.circle_dash_next)
+                            ? circleCloseObject.getBlueLinePaint() : circleCloseObject.getGreyLinePaint());
+            canvas.drawCircle(circleCloseObject.getCenter().x, circleCloseObject.getCenter().y,
+                    circleCloseObject.getRadius_small(),
+                    ACStatus.circle_dash_close ? circleCloseObject.getBlueDotPaint() : circleCloseObject.getGreyDotPaint());
+            canvas.drawText(circleCloseObject.getText(), circleCloseObject.getCenter().x, circleCloseObject.getCenter().y,
+                    circleCloseObject.getTextPaint());
+        }
+
+//        if(lastDotObject.isDraw()){
+//            Path path = new Path();
+//            path.moveTo(lastObject.getCenter().x , lastObject.getCenter().y);
+//            path.lineTo(lastDotObject.getCenter().x, lastDotObject.getCenter().y);
+//            canvas.drawPath(path,
+//                    ACStatus.last_dash_dot ? lastDotObject.getBlueLinePaint() : lastDotObject.getGreyLinePaint());
+//            Path path2 = new Path();
+//            path2.moveTo(lastDotObject.getCenter().x, lastDotObject.getCenter().y);
+//            path2.lineTo(completeObject.getCenter().x, completeObject.getCenter().y);
+//            canvas.drawPath(path2,
+//                    ACStatus.last_dash_next ? lastDotObject.getBlueLinePaint() : lastDotObject.getGreyLinePaint());
+//            canvas.drawCircle(lastDotObject.getCenter().x, lastDotObject.getCenter().y,
+//                    lastDotObject.getRadius_dot(),
+//                    ACStatus.last_dash_dot ? lastDotObject.getBlueDotPaint() : lastDotObject.getGreyDotPaint());
+//            canvas.drawCircle(lastDotObject.getCenter().x, lastDotObject.getCenter().y,
+//                    lastDotObject.getRadius_dot_core(), lastDotObject.getDotWhitePaint());
+//        }
+        if(lastOpenObject.isDraw()){
             Path path = new Path();
             path.moveTo(lastObject.getCenter().x , lastObject.getCenter().y);
-            path.lineTo(lastDotObject.getCenter().x, lastDotObject.getCenter().y);
+            path.lineTo(lastOpenObject.getCenter().x, lastOpenObject.getCenter().y);
             canvas.drawPath(path,
-                    ACStatus.last_dash_dot ? lastDotObject.getBlueLinePaint() : lastDotObject.getGreyLinePaint());
+                    ACStatus.last_dash_open ? lastOpenObject.getBlueLinePaint() : lastOpenObject.getGreyLinePaint());
             Path path2 = new Path();
-            path2.moveTo(lastDotObject.getCenter().x, lastDotObject.getCenter().y);
+            path2.moveTo(lastOpenObject.getCenter().x, lastOpenObject.getCenter().y);
             path2.lineTo(completeObject.getCenter().x, completeObject.getCenter().y);
             canvas.drawPath(path2,
-                    ACStatus.last_dash_next ? lastDotObject.getBlueLinePaint() : lastDotObject.getGreyLinePaint());
-            canvas.drawCircle(lastDotObject.getCenter().x, lastDotObject.getCenter().y,
-                    lastDotObject.getRadius_dot(),
-                    ACStatus.last_dash_dot ? lastDotObject.getBlueDotPaint() : lastDotObject.getGreyDotPaint());
-            canvas.drawCircle(lastDotObject.getCenter().x, lastDotObject.getCenter().y,
-                    lastDotObject.getRadius_dot_core(), lastDotObject.getDotWhitePaint());
+                    (ACStatus.last_dash_open &&  ACStatus.last_dash_next)
+                            ? lastOpenObject.getBlueLinePaint() : lastOpenObject.getGreyLinePaint());
+            canvas.drawCircle(lastOpenObject.getCenter().x, lastOpenObject.getCenter().y,
+                    lastOpenObject.getRadius_small(),
+                    ACStatus.last_dash_open ? lastOpenObject.getBlueDotPaint() : lastOpenObject.getGreyDotPaint());
+            canvas.drawText(lastOpenObject.getText(), lastOpenObject.getCenter().x, lastOpenObject.getCenter().y,
+                    lastOpenObject.getTextPaint());
+        }
+        if(lastCloseObject.isDraw()){
+            Path path = new Path();
+            path.moveTo(lastObject.getCenter().x , lastObject.getCenter().y);
+            path.lineTo(lastCloseObject.getCenter().x, lastCloseObject.getCenter().y);
+            canvas.drawPath(path,
+                    ACStatus.last_dash_close ? lastCloseObject.getBlueLinePaint() : lastCloseObject.getGreyLinePaint());
+            Path path2 = new Path();
+            path2.moveTo(lastCloseObject.getCenter().x, lastCloseObject.getCenter().y);
+            path2.lineTo(completeObject.getCenter().x, completeObject.getCenter().y);
+            canvas.drawPath(path2,
+                    (ACStatus.last_dash_close && ACStatus.last_dash_next)
+                            ? lastCloseObject.getBlueLinePaint() : lastCloseObject.getGreyLinePaint());
+            canvas.drawCircle(lastCloseObject.getCenter().x, lastCloseObject.getCenter().y,
+                    lastCloseObject.getRadius_small(),
+                    ACStatus.last_dash_close ? lastCloseObject.getBlueDotPaint() : lastCloseObject.getGreyDotPaint());
+            canvas.drawText(lastCloseObject.getText(), lastCloseObject.getCenter().x, lastCloseObject.getCenter().y,
+                    lastCloseObject.getTextPaint());
         }
 
         /**
@@ -995,18 +1110,32 @@ public class AccountConfigurationView extends View{
                 //circle
                 if(ACStatus.circle_showing == true
                         && ACStatus.circle_dash_object
-                        && ACUtils.withPointRadius(x, y, circleDotObject.getCenter() , circleDotObject.getRadius_dot_action())){
-                    ACStatus.circle_dash_dot = true;
+                        && ACUtils.withPointRadius(x, y, circleOpenObject.getCenter() , circleOpenObject.getRadius_small())){
+                    ACStatus.circle_dash_open = true;
+                    ACStatus.circle_dash_close = false;
                 }
-                ACStatus.circle_dash_next = ACStatus.circle_dash_dot
+                if(ACStatus.circle_showing == true
+                        && ACStatus.circle_dash_object
+                        && ACUtils.withPointRadius(x, y, circleCloseObject.getCenter() , circleCloseObject.getRadius_small())){
+                    ACStatus.circle_dash_close = true;
+                    ACStatus.circle_dash_open = false;
+                }
+                ACStatus.circle_dash_next = (ACStatus.circle_dash_open || ACStatus.circle_dash_close)
                         && ACUtils.withPointRadius(x, y, lastObject.getCenter() , lastObject.getRadius());
                 //last
                 if(ACStatus.last_showing == true
                         && ACStatus.last_dash_object
-                        && ACUtils.withPointRadius(x, y, lastDotObject.getCenter() , lastDotObject.getRadius_dot_action())){
-                    ACStatus.last_dash_dot = true;
+                        && ACUtils.withPointRadius(x, y, lastOpenObject.getCenter() , lastOpenObject.getRadius_small())){
+                    ACStatus.last_dash_open = true;
+                    ACStatus.last_dash_close = false;
                 }
-                ACStatus.last_dash_next = ACStatus.last_dash_dot
+                if(ACStatus.last_showing == true
+                        && ACStatus.last_dash_object
+                        && ACUtils.withPointRadius(x, y, lastCloseObject.getCenter() , lastCloseObject.getRadius_small())){
+                    ACStatus.last_dash_open = false;
+                    ACStatus.last_dash_close = true;
+                }
+                ACStatus.last_dash_next = (ACStatus.last_dash_open || ACStatus.last_dash_close)
                         && ACUtils.withPointRadius(x, y, completeObject.getCenter() , completeObject.getRadius());
                 break;
             case MotionEvent.ACTION_UP:
@@ -1072,6 +1201,8 @@ public class AccountConfigurationView extends View{
                 }else{
                     ACStatus.birthday_dash_object = false;
                     ACStatus.birthday_dash_dot = false;
+                    ACStatus.circle_dash_open = false;
+                    ACStatus.circle_dash_close = false;
                     ACStatus.birthday_dash_next = false;
 //                    ACStatus.birthday_dash_always = false;
                 }
@@ -1116,6 +1247,8 @@ public class AccountConfigurationView extends View{
                 }else{
                     ACStatus.last_dash_object = false;
                     ACStatus.last_dash_dot = false;
+                    ACStatus.last_dash_open = false;
+                    ACStatus.last_dash_close = false;
                     ACStatus.last_dash_next = false;
 //                    ACStatus.nick_dash_always = false;
                 }
@@ -1195,6 +1328,8 @@ public class AccountConfigurationView extends View{
         ACStatus.draw_email_quad_circle = false;
         circleObject.setIsDraw(false);
         circleDotObject.setIsDraw(false);
+        circleOpenObject.setIsDraw(false);
+        circleCloseObject.setIsDraw(false);
     }
 
     public void releaseALL(){
@@ -1217,8 +1352,12 @@ public class AccountConfigurationView extends View{
         emailDotObject.setIsDraw(false);
         circleObject.setIsDraw(false);
         circleDotObject.setIsDraw(false);
+        circleOpenObject.setIsDraw(false);
+        circleCloseObject.setIsDraw(false);
         lastObject.setIsDraw(false);
         lastDotObject.setIsDraw(false);
+        lastOpenObject.setIsDraw(false);
+        lastCloseObject.setIsDraw(false);
         completeObject.setIsDraw(false);
         ACStatus.falseAll();
     }

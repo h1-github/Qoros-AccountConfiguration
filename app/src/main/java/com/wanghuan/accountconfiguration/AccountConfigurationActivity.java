@@ -633,8 +633,8 @@ public class AccountConfigurationActivity extends Activity implements StepCallba
     @Override
     public void circleExitLastEnter() {
         stepImage.setBackgroundResource(R.mipmap.welcome_step_8);
-        title.setText("车友圈");
-        subTitle.setText("一起分享观致驾驶乐趣\n与观致车友互动");
+        title.setText("监控范围");
+        subTitle.setText("是否开启观致汽车监控范围\n若车辆超过此范围，你会收到提醒");
         startTitleAnimation();
         startSubTitleAnimation();
         acView.circleExitLastEnter();
